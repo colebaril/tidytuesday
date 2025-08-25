@@ -1,0 +1,56 @@
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR)
+
+options(scipen = 999)
+
+tuesdata <- tidytuesdayR::tt_load('2025-08-12')
+## OR
+tuesdata <- tidytuesdayR::tt_load(2025, week = 32)
+
+attribution_studies <- tuesdata$attribution_studies
+attribution_studies_raw <- tuesdata$attribution_studies_raw
+
+attribution_studies |> 
+  distinct(event_type)
+
+attribution_studies |> 
+  distinct(classification)
+
+attribution_studies |> 
+  filter(event_type %in% c("Cold, snow & ice", "Drought", "Heat", "Rain & flooding", "Wildfire")) |> 
+  reframe(n = n(),
+          .by = c("publication_year", "event_type", "classification")) |> 
+  ggplot(aes(x = publication_year, y = n, colour = classification)) +
+  geom_point(aes(size = n)) + 
+  geom_smooth(aes(groups = classification), method = "lm", se = FALSE) +
+  facet_wrap(~event_type) +
+  labs(x = "Publication Year",
+       y = "Number of Studies",
+       title = "Charting Attribution: Studies Linking Climate Change to Extreme Weather (2000–2024)",
+       subtitle = "Studies across all event types have grown steadily, with most finding that climate change increases the severity or likelihood of extremes.",
+       size = "Number of Attribution Studies",
+       colour = "Study Finding") +
+  scale_colour_brewer(palette = "Set2") +
+  theme_bw(base_size = 15, base_family = "Courier New") +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        strip.text = element_text(face = "bold", size = 14),
+        plot.title = element_text(face = "bold", hjust = 0.5, size = 20),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "inside",
+        legend.position.inside = c(.825, .25),
+        legend.title.position = "top",
+        legend.title = element_text(hjust = 0),
+        legend.key.width = unit(2.5, "lines"),
+        legend.key.height = unit(1, "lines"),
+        legend.background = element_rect(fill = "#f5f5f2"),
+        plot.background = element_rect(fill = "#f5f5f2", color = "#f5f5f2"),
+        panel.background = element_rect(fill = "#f5f5f2", color = "#f5f5f2"),
+        axis.line = element_line(colour = "black"),
+        plot.margin = margin(0.1, 2, 0.1, 0.1, "cm")) +
+  guides(color = guide_legend(override.aes = list(size = 7))) 
+
+ggsave(here("2025-08-12 - Extreme Weather Attribution Studies/Extreme Weather Attribution Studies.png"), plot = last_plot(), width = 20, height = 12, dpi = 300)
+  
