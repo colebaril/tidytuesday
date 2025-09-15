@@ -19,3 +19,7 @@ This repository contains my weekly contributions to the [#TidyTuesday](https://g
 1. Clone the repository:
    ```bash
    git clone https://github.com/colebaril/tidytuesday.git
+
+2. Open the R scripts for each week.
+
+3. Run the code to reproduce the visualizations.
