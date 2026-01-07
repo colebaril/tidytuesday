@@ -1,28 +1,33 @@
 ---
 title: "2025-09-02 - Australian Frogs"
+author: "Cole Baril"
 format: html
 editor: visual
 ---
 
-```{r}
+```{r, load_packages}
 require(pacman)
 p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork, hexbin)
+```
 
+```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-09-02')
 frogs <- tuesdata$frogID_data
 frog_names <- tuesdata$frog_names
+```
 
+```{r, clean_data}
 frogs <- frogs |>
   clean_names() 
- 
 
 frogs_unique <- frogs %>%
   distinct(decimal_longitude, decimal_latitude, scientific_name)
 
-
 aus_states <- ne_states(country = "australia", returnclass = "sf") |> 
   filter(name != "Macquarie Island")
+```
 
+```{r, plot}
 ggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +
   stat_summary_hex(
     aes(z = as.numeric(factor(scientific_name))),

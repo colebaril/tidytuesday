@@ -1,10 +1,35 @@
 ---
-title: "TidyTuesday Gallery"
+title: "Cole's `tidytuesday` Archive"
 format: html
 ---
 
-# Welcome to my TidyTuesday projects
+Click the links below to explore some of my weekly `tidytuesday` posts
 
-Here are my weekly Tidytuesday posts:
+## 2026
 
-- [2025-09-02 – Australian Frogs](2025-09-02_Australian Frogs/2025-09-02_Australian Frogs.html)
+## 2025
+
+::: {.columns}
+
+::: {.column width="50%"}
+### [2025-09-02 – Australian Frogs](2025-09-02_Australian Frogs/2025-09-02_Australian Frogs.html)
+
+Exploring frog species richness across Australia.
+:::
+
+::: {.column width="50%"}
+### [2025-09-09 – Passport Power](posts/2025-09-09 - Passport Power/2025-09-09 - Passport Power.html)
+
+Exploring passport power for each country.
+:::
+
+::: {.column width="50%"}
+### [2025-09-09 – Another Week](posts/2025-09-09_Another-Week/2025-09-09_Another-Week.html)
+
+A deep dive into a new dataset.
+:::
+
+:::
+
+
+
