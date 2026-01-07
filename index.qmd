@@ -7,4 +7,4 @@ format: html
 
 Here are my weekly Tidytuesday posts:
 
-- [2025-09-02 – Australian Frogs](2025-09-02 - Australian Frogs/2025-09-02-Australian-Frogs.html)
+- [2025-09-02 – Australian Frogs](2025-09-02 - Australian Frogs/2025-09-02 - Australian-Frogs.html)
