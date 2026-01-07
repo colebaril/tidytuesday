@@ -16,9 +16,9 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "About This Site",
     "section": "",
-    "text": "About this site"
+    "text": "Welcome to my TidyTuesday Gallery!\nEach week, I explore a new dataset from the TidyTuesday project, creating visualizations and summaries using R and tidyverse tools. This site serves as a personal record of my weekly explorations, as well as a way to share the insights and graphics I produce with others.\nAll datasets are publicly available via the TidyTuesday GitHub repository, and this project is entirely open source. You can find the original TidyTuesday datasets here:\nThis site itself is hosted on GitHub Pages, and the full source code for the website is available here:"
   },
   {
     "objectID": "2025-09-02_Australian Frogs/2025-09-02_Australian Frogs.html",
@@ -39,7 +39,7 @@
     "href": "index.html#section-1",
     "title": "Cole’s tidytuesday Archive",
     "section": "2025",
-    "text": "2025\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country.\n\n\n\n2025-09-09 – Another Week\nA deep dive into a new dataset."
+    "text": "2025\n\n\n\n2025-08-19 - Scottish Munros\nExploring Scottish Munro (e.g., mountain) data.\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country.\n\n\n\n2025-09-09 – Another Week\nA deep dive into a new dataset."
   },
   {
     "objectID": "index.html#section",
@@ -82,5 +82,33 @@
     "title": "2025-08-26 - Billboard Hot 100 Number Ones",
     "section": "Explicit Songs",
     "text": "Explicit Songs\nA fairly basic viz this week, but was curious as to whether the number of songs classified as explicit has increased, and sure enough it has.\n\nbillboard |&gt; \n  mutate(year = year(date)) |&gt; \n  filter(year != \"2025\") |&gt; \n  reframe(prop_explicit = mean(explicit),\n          .by = year) |&gt; \n  ggplot(aes(x = year, y = prop_explicit)) +\n  geom_line() +\n  geom_point() +\n  labs(y = \"Proportion Explicit\",\n       x = \"Year\",\n       title = \"Proportion of Explicit Billboard Hot 100 Number One Songs\") +\n  theme_bw(base_size = 15)"
+  },
+  {
+    "objectID": "about.html#how-to-use-this-site",
+    "href": "about.html#how-to-use-this-site",
+    "title": "About This Site",
+    "section": "How to Use This Site",
+    "text": "How to Use This Site\n\nVisit the Home page to see a gallery of weekly posts\n\nClick any post to explore individual visualizations and summaries\n\n\nI hope this site inspires others to explore datasets, create visualizations, and share their own insights with the community. Happy tidying!"
+  },
+  {
+    "objectID": "2025-08-19 - Scottish Munros/2025-08-19 - Scottish Munros.html",
+    "href": "2025-08-19 - Scottish Munros/2025-08-19 - Scottish Munros.html",
+    "title": "2025-08-19 - Scottish Munros",
+    "section": "",
+    "text": "require(pacman)\np_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork)\n\n\ntuesdata &lt;- tidytuesdayR::tt_load('2025-08-19')\nscottish_munros &lt;- tuesdata$scottish_munros\n\n\n# Get UK countries (scotland, england, etc.) from Natural Earth\nuk &lt;- ne_countries(country = \"United Kingdom\", scale = \"medium\", returnclass = \"sf\")\n\n# Transform UK shapefile to British National Grid\nuk_bng &lt;- st_transform(uk, crs = 27700)\n\n\n# Get rivers and lakes\nrivers &lt;- ne_download(scale = \"medium\", type = \"rivers_lake_centerlines\", category = \"physical\", returnclass = \"sf\")\nlakes &lt;- ne_download(scale = \"medium\", type = \"lakes\", category = \"physical\", returnclass = \"sf\")\nrivers_bng &lt;- st_transform(rivers, crs = 27700)\nlakes_bng &lt;- st_transform(lakes, crs = 27700)\n\n# Get major cities\ncities &lt;- ne_download(scale = \"medium\", type = \"populated_places\", category = \"cultural\", returnclass = \"sf\")\ncities_bng &lt;- st_transform(cities, crs = 27700)\n\n# Make sf object with British National Grid CRS\ndf_sf &lt;- st_as_sf(scottish_munros |&gt; drop_na(xcoord, ycoord), coords = c(\"xcoord\", \"ycoord\"), crs = 27700)\n\ndensity &lt;- ggplot() +\n  # Lakes\n  geom_sf(data = lakes_bng, fill = \"lightblue\", color = NA) +\n  \n  # Rivers\n  geom_sf(data = rivers_bng, color = \"blue\", size = 0.5) +\n  \n  # Country borders\n  geom_sf(data = uk_bng, fill = NA, color = \"black\", size = 0.7) +\n  \n  # 2D density heatmap (semi-transparent)\n  stat_density_2d(\n    data = df_sf,\n    aes(x = st_coordinates(df_sf)[,1], y = st_coordinates(df_sf)[,2], fill = after_stat(level * 1e9)),\n    geom = \"polygon\",\n    alpha = 0.4,\n    color = NA,\n    h = c(40000, 40000)\n  ) +\n  scale_fill_viridis_c(option = \"magma\", name = \"2D Kernel Density (x1e9)\") +\n\n  \n  # Zoom to Scotland\n  coord_sf(crs = 27700,\n           xlim = c(0, 470000),\n           ylim = c(530000, 1200000)) +\n  \n  # Add plot border\n  theme_void(base_family = \"Courier New\") +\n  theme(\n    panel.border = element_rect(color = \"black\", fill = NA, size = 1),\n    panel.background = element_rect(fill = \"white\"),\n    legend.position = \"bottom\"\n  ) \n\n\npoints &lt;- ggplot() +\n  # Lakes\n  geom_sf(data = lakes_bng, fill = \"lightblue\", color = NA) +\n  \n  # Rivers\n  geom_sf(data = rivers_bng, color = \"blue\", size = 0.5) +\n  \n  # Country borders\n  geom_sf(data = uk_bng, fill = NA, color = \"black\", size = 0.7) +\n  \n  scale_fill_viridis_c(option = \"magma\", name = \"Density\") +\n  \n  # Points colored by height\n  geom_sf(\n    data = df_sf,\n    aes(color = Height_m, size = Height_m),\n    alpha = 0.8\n  ) +\n  scale_color_viridis_c(option = \"plasma\", name = \"Height (m)\") +\n  scale_size_continuous(range = c(1,5), guide = \"none\") +\n  \n  # Zoom to Scotland\n  coord_sf(crs = 27700,\n           xlim = c(0, 470000),\n           ylim = c(530000, 1200000)) +\n  \n  # Add plot border\n  theme_void(base_family = \"Courier New\") +\n  theme(\n    panel.border = element_rect(color = \"black\", fill = NA, size = 1),\n    panel.background = element_rect(fill = \"white\"),\n    legend.position = \"bottom\",\n    legend.key.size = unit(1.5, \"lines\")\n  ) \n\npoints + density +\n  plot_annotation(\n    title = \"Scottish Munros\",\n    subtitle = \"Scottish Munros are largely clustered around three central points\"\n  ) &\n  theme(text = element_text('Courier New'),\n        plot.title = element_text(face = \"bold\", hjust = 0.5, size = 20),\n        plot.subtitle = element_text(hjust = 0.5, size = 14))"
+  },
+  {
+    "objectID": "About This Site.html",
+    "href": "About This Site.html",
+    "title": "tidytuesday",
+    "section": "",
+    "text": "Welcome to my TidyTuesday Gallery!\nEach week, I explore a new dataset from the TidyTuesday project, creating visualizations and summaries using R and tidyverse tools. This site serves as a personal record of my weekly explorations, as well as a way to share the insights and graphics I produce with others.\nAll datasets are publicly available via the TidyTuesday GitHub repository, and this project is entirely open source. You can find the original TidyTuesday datasets here:\nThis site itself is hosted on GitHub Pages, and the full source code for the website is available here:"
+  },
+  {
+    "objectID": "About This Site.html#how-to-use-this-site",
+    "href": "About This Site.html#how-to-use-this-site",
+    "title": "tidytuesday",
+    "section": "How to Use This Site",
+    "text": "How to Use This Site\n\nVisit the Home page to see a gallery of weekly posts\n\nClick any post to explore individual visualizations and summaries\n\n\nI hope this site inspires others to explore datasets, create visualizations, and share their own insights with the community. Happy tidying!"
   }
 ]

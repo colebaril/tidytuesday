@@ -1,5 +1,29 @@
 ---
-title: "About"
+title: "About This Site"
+format: html
 ---
 
-About this site
+Welcome to my **TidyTuesday Gallery**!   
+
+Each week, I explore a new dataset from the [TidyTuesday project](https://github.com/rfordatascience/tidytuesday), creating visualizations and summaries using **R** and **tidyverse tools**. This site serves as a personal record of my weekly explorations, as well as a way to share the insights and graphics I produce with others.
+
+All datasets are publicly available via the TidyTuesday GitHub repository, and this project is **entirely open source**. You can find the original TidyTuesday datasets here:  
+
+- [TidyTuesday GitHub repository](https://github.com/rfordatascience/tidytuesday)  
+- [`tidytuesdayR` package](https://github.com/thebioengineer/tidytuesdayR) for easy dataset access in R
+
+This site itself is hosted on **GitHub Pages**, and the full source code for the website is available here:  
+
+- [TidyTuesday Gallery GitHub repo](https://github.com/colebaril/tidytuesday)  
+
+---
+
+## How to Use This Site
+
+- Visit the **Home** page to see a gallery of weekly posts  
+- Click any post to explore individual visualizations and summaries  
+
+---
+
+I hope this site inspires others to explore datasets, create visualizations, and share their own insights with the community. Happy tidying!
+

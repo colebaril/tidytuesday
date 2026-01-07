@@ -1,10 +1,22 @@
+---
+title: "2025-08-19 - Scottish Munros"
+author: "Cole Baril"
+format: html
+editor: visual
+---
+
+```{r, load_packages}
 require(pacman)
 p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork)
+```
 
+```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-08-19')
 scottish_munros <- tuesdata$scottish_munros
+```
 
 
+```{r, plot}
 # Get UK countries (scotland, england, etc.) from Natural Earth
 uk <- ne_countries(country = "United Kingdom", scale = "medium", returnclass = "sf")
 
@@ -99,10 +111,9 @@ points <- ggplot() +
 points + density +
   plot_annotation(
     title = "Scottish Munros",
-    subtitle = "Scottish Munros are largely clustered around three central points; the centre of each cluster has the tallest munros"
+    subtitle = "Scottish Munros are largely clustered around three central points"
   ) &
   theme(text = element_text('Courier New'),
         plot.title = element_text(face = "bold", hjust = 0.5, size = 20),
         plot.subtitle = element_text(hjust = 0.5, size = 14))
-
-ggsave(here("2025-08-19 - Scottish Munros/Scottish Munros.png"), plot = last_plot(), width = 15, height = 12, dpi = 300)
+```
