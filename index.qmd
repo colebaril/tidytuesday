@@ -12,6 +12,12 @@ Click the links below to explore some of my weekly `tidytuesday` posts
 ::: {.columns}
 
 ::: {.column width="50%"}
+### [2025-08-26 - Billboard Hot 100 Number Ones](2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html)
+
+Exploring Billboard Hot 100 Number One track data.
+:::
+
+::: {.column width="50%"}
 ### [2025-09-02 – Australian Frogs](2025-09-02_Australian Frogs/2025-09-02_Australian Frogs.html)
 
 Exploring frog species richness across Australia.

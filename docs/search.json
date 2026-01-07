@@ -39,7 +39,7 @@
     "href": "index.html#section-1",
     "title": "Cole’s tidytuesday Archive",
     "section": "2025",
-    "text": "2025\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Another Week\nA deep dive into a new dataset.\n\n\n\n2025-09-09 – Another Week\nA deep dive into a new dataset."
+    "text": "2025\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country.\n\n\n\n2025-09-09 – Another Week\nA deep dive into a new dataset."
   },
   {
     "objectID": "index.html#section",
@@ -68,5 +68,19 @@
     "title": "2025-09-09 - Passport Power",
     "section": "Least Powerful Passports",
     "text": "Least Powerful Passports\n\nt &lt;- world |&gt; \n  st_drop_geometry() |&gt; \n  filter(!year %in% c(\"2007\", \"2009\")) |&gt;\n  select(iso_a2, country, visa_free_count, year) |&gt; \n  arrange(year, .by = country) |&gt; \n  reframe(visa_free_count_list = list(visa_free_count),\n          .by = country) |&gt; \n  drop_na(country)\n  \nworld |&gt; \n  st_drop_geometry() |&gt; \n  filter(year %in% c(\"2025\", \"2024\")) |&gt;\n  select(iso_a2, country, visa_free_count, year) |&gt; \n  pivot_wider(names_from = year, values_from = visa_free_count) |&gt; \n  relocate(`2025`, .before = `2024`) |&gt; \n  mutate(change = `2025` - `2024`) |&gt; \n  left_join(t, by = \"country\") |&gt; \n  arrange(`2025`) |&gt; \n  head(10) |&gt; \n  gt() |&gt; \n  fmt_flag(columns = iso_a2) |&gt; \n  cols_add(dir = ifelse(`2024` &lt; `2025`, \"arrow-up\", \"arrow-down\")) |&gt; \n  fmt_icon(\n    columns = dir,\n    fill_color = c(\"arrow-up\" = \"green\", \"arrow-down\" = \"red\")\n  ) |&gt; \n  cols_hide(c(`2025`, `2024`)) |&gt;\n  cols_move(dir, after = change) |&gt; \n  gt_plt_sparkline(column = visa_free_count_list,\n                   fig_dim = c(20, 30)) |&gt; \n  cols_label(iso_a2 = \"\",\n             dir = \"\",\n             country = \"Country\",\n             change = \"2024-2025 Change\",\n             visa_free_count_list = \"Visa Free Count \\nOver Time (2006-2025)\") |&gt; \n  cols_align(columns = 5, align = \"center\") |&gt; \n  tab_header(\n    title = md(\"**Top 10 Least Powerful Passports**\")\n  ) |&gt; \n  opt_table_font(font = \"Courier New\") |&gt; \n  tab_options(\n    table.background.color = \"cornsilk\"\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTop 10 Least Powerful Passports\n\n\n\nCountry\n2024-2025 Change\n\nVisa Free Count Over Time (2006-2025)\n\n\n\n\n\n\n\nAfghanistan\n\n\n\n\nAfghanistan\n-3\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   25.0\n\n\n\n\n\n\nSyria\n\n\n\n\nSyria\n-2\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   27.0\n\n\n\n\n\n\nIraq\n\n\n\n\nIraq\n-1\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   30.0\n\n\n\n\n\n\nYemen\n\n\n\n\nYemen\n-3\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   32.0\n\n\n\n\n\n\nSomalia\n\n\n\n\nSomalia\n-4\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   32.0\n\n\n\n\n\n\nPakistan\n\n\n\n\nPakistan\n-2\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   32.0\n\n\n\n\n\n\nNepal\n\n\n\n\nNepal\n-2\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   38.0\n\n\n\n\n\n\nLibya\n\n\n\n\nLibya\n-2\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   38.0\n\n\n\n\n\n\nPalestine\n\n\n\n\nPalestinian Territory\n-1\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   39.0\n\n\n\n\n\n\nEritrea\n\n\n\n\nEritrea\n-4\n\n\n\nArrow Down\n\n\n\n\n\n\n\n   39.0"
+  },
+  {
+    "objectID": "2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html",
+    "href": "2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html",
+    "title": "2025-08-26 - Billboard Hot 100 Number Ones",
+    "section": "",
+    "text": "require(pacman)\np_load(tidytuesdayR, tidyverse, janitor)\ntuesdata &lt;- tidytuesdayR::tt_load('2025-08-26')\nbillboard &lt;- tuesdata$billboard\ntopics &lt;- tuesdata$topics"
+  },
+  {
+    "objectID": "2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html#explicit-songs",
+    "href": "2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html#explicit-songs",
+    "title": "2025-08-26 - Billboard Hot 100 Number Ones",
+    "section": "Explicit Songs",
+    "text": "Explicit Songs\nA fairly basic viz this week, but was curious as to whether the number of songs classified as explicit has increased, and sure enough it has.\n\nbillboard |&gt; \n  mutate(year = year(date)) |&gt; \n  filter(year != \"2025\") |&gt; \n  reframe(prop_explicit = mean(explicit),\n          .by = year) |&gt; \n  ggplot(aes(x = year, y = prop_explicit)) +\n  geom_line() +\n  geom_point() +\n  labs(y = \"Proportion Explicit\",\n       x = \"Year\",\n       title = \"Proportion of Explicit Billboard Hot 100 Number One Songs\") +\n  theme_bw(base_size = 15)"
   }
 ]

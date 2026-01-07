@@ -1,10 +1,25 @@
-require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, patchwork)
+---
+title: "2025-08-26 - Billboard Hot 100 Number Ones"
+author: "Cole Baril"
+format: html
+editor: visual
+---
 
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor)
+```
+
+```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-08-26')
 billboard <- tuesdata$billboard
 topics <- tuesdata$topics
+```
 
+## Explicit Songs
+
+A fairly basic viz this week, but was curious as to whether the number of songs classified as explicit has increased, and sure enough it has. 
+```{r, plot}
 billboard |> 
   mutate(year = year(date)) |> 
   filter(year != "2025") |> 
@@ -17,5 +32,4 @@ billboard |>
        x = "Year",
        title = "Proportion of Explicit Billboard Hot 100 Number One Songs") +
   theme_bw(base_size = 15)
-
-
+```

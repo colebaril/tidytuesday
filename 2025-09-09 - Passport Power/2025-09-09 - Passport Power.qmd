@@ -19,6 +19,7 @@ rank_by_year <- tuesdata$rank_by_year
 ```
 
 ## World Map
+
 ```{r, plot}
 world <- rnaturalearth::ne_countries(scale = 50) |> 
   filter(admin != "Antarctica") |> 
@@ -42,6 +43,7 @@ world |>
 ```
 
 ## Top 10 Most Powerful Passports
+
 ```{r, table_high}
 t <- world |> 
   st_drop_geometry() |> 
@@ -89,6 +91,7 @@ world |>
 ```
 
 ## Least Powerful Passports
+
 ```{r, table_low}
 t <- world |> 
   st_drop_geometry() |> 
