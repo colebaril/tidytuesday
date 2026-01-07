@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Cole Baril">
+<meta name="dcterms.date" content="2026-01-06">
+
+<title>TidyTuesday 2025-09-09 - Passport Power – tidytuesday</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ddd961a2510921635943dfbbd19534c4.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">tidytuesday</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#passport-power-map" id="toc-passport-power-map" class="nav-link active" data-scroll-target="#passport-power-map"><mark> <strong>2025 Passport Power Map</strong> </mark></a></li>
+  <li><a href="#top-and-bottom-10-countries" id="toc-top-and-bottom-10-countries" class="nav-link" data-scroll-target="#top-and-bottom-10-countries"><mark> <strong>Top and Bottom 10 Countries</strong> </mark></a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">TidyTuesday 2025-09-09 - Passport Power</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Cole Baril </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 6, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<style>
+mark {
+  background-color: #FFF8DC; /* Green background */
+  color: black; /* White text color for contrast */
+  padding: 0.2em; /* Optional: add some padding for better visual appearance */
+  border-radius: 3px; /* Optional: add rounded corners */
+}
+</style>
+<style>
+body, p, h1, h2, h3, h4, h5, h6 {
+  background-color: white;
+  color: black; 
+  font-family: Courier New;
+}
+</style>
+<section id="passport-power-map" class="level3">
+<h3 class="anchored" data-anchor-id="passport-power-map"><mark> <strong>2025 Passport Power Map</strong> </mark></h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="2025-09-09---Passport-Power_files/figure-html/world_map-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="top-and-bottom-10-countries" class="level3">
+<h3 class="anchored" data-anchor-id="top-and-bottom-10-countries"><mark> <strong>Top and Bottom 10 Countries</strong> </mark></h3>
+<div class="cell">
+<div class="cell-output-display">
+<div id="kvjfdelptc" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kvjfdelptc table {
+  font-family: 'Courier New', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#kvjfdelptc thead, #kvjfdelptc tbody, #kvjfdelptc tfoot, #kvjfdelptc tr, #kvjfdelptc td, #kvjfdelptc th {
+  border-style: none;
+}
+
+#kvjfdelptc p {
+  margin: 0;
+  padding: 0;
+}
+
+#kvjfdelptc .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFF8DC;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#kvjfdelptc .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFF8DC;
+  border-bottom-width: 0;
+}
+
+#kvjfdelptc .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFF8DC;
+  border-top-width: 0;
+}
+
+#kvjfdelptc .gt_heading {
+  background-color: #FFF8DC;
+  text-align: center;
+  border-bottom-color: #FFF8DC;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_col_heading {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kvjfdelptc .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kvjfdelptc .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kvjfdelptc .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kvjfdelptc .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kvjfdelptc .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#kvjfdelptc .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#kvjfdelptc .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kvjfdelptc .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kvjfdelptc .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kvjfdelptc .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kvjfdelptc .gt_stub {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kvjfdelptc .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kvjfdelptc .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kvjfdelptc .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#kvjfdelptc .gt_summary_row {
+  color: #333333;
+  background-color: #FFF8DC;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kvjfdelptc .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kvjfdelptc .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFF8DC;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kvjfdelptc .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kvjfdelptc .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_footnotes {
+  color: #333333;
+  background-color: #FFF8DC;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kvjfdelptc .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFF8DC;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kvjfdelptc .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kvjfdelptc .gt_left {
+  text-align: left;
+}
+
+#kvjfdelptc .gt_center {
+  text-align: center;
+}
+
+#kvjfdelptc .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kvjfdelptc .gt_font_normal {
+  font-weight: normal;
+}
+
+#kvjfdelptc .gt_font_bold {
+  font-weight: bold;
+}
+
+#kvjfdelptc .gt_font_italic {
+  font-style: italic;
+}
+
+#kvjfdelptc .gt_super {
+  font-size: 65%;
+}
+
+#kvjfdelptc .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#kvjfdelptc .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kvjfdelptc .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#kvjfdelptc .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#kvjfdelptc .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#kvjfdelptc .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#kvjfdelptc .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#kvjfdelptc .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#kvjfdelptc div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<th colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border"><strong>Top 10 Most Powerful Passports</strong></th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="iso_a2" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="country" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Country</th>
+<th id="change" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">2024-2025 Change</th>
+<th id="dir" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="visa_free_count_list" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Visa Free Count Over Time (2006-2025)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Singapore
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 256 257.7-51L512 256v256H0z"></path><path fill="#d80027" d="M0 0h512v256H0z"></path><g fill="#eee"><path d="M155.8 133.6A78 78 0 0 1 217 57.5a78.2 78.2 0 0 0-16.7-1.8 78 78 0 1 0 16.7 154 78 78 0 0 1-61.2-76.1zM256 61.2l5.5 17h18l-14.6 10.5 5.6 17L256 95.2l-14.5 10.5 5.6-17-14.5-10.5h17.9z"></path><path d="m212.6 94.6 5.6 17H236l-14.4 10.5 5.5 17-14.5-10.5-14.4 10.5 5.5-17-14.5-10.5h17.9zm86.8 0 5.5 17h17.9l-14.5 10.5 5.5 17-14.4-10.5-14.5 10.5 5.5-17-14.4-10.5h17.8zm-16.7 50.1 5.5 17h17.9l-14.5 10.5 5.5 17-14.4-10.5-14.5 10.5 5.5-17-14.4-10.5h17.9zm-53.4 0 5.5 17h18l-14.5 10.5 5.5 17-14.5-10.5-14.4 10.5 5.5-17-14.5-10.5h17.9z"></path></g></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Singapore</td>
+<td class="gt_row gt_center" headers="change">-1</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="9.92" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">193.0</text><polyline points="6.47,45.62 9.95,30.74 13.42,28.08 16.89,23.30 20.37,24.89 23.84,21.70 27.32,20.11 30.79,20.64 34.27,18.51 37.74,18.51 41.22,10.01 44.69,9.47 48.17,9.47 51.64,8.41 55.11,8.41 58.59,8.41 62.06,7.35 65.54,7.88 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="7.88" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="45.62" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.35" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+South Korea
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h512v512H0Z"></path><path fill="#333" d="m350 335 24-24 16 16-24 23zm-39 39 24-24 15 16-23 24zm87 8 23-24 16 16-24 24zm-40 39 24-23 16 15-24 24Zm16-63 24-23 15 15-23 24zm-39 40 23-24 16 16-24 23zm63-221-63-63 15-15 64 63zm-63-15-24-24 16-16 23 24zm39 39-24-24 16-15 24 23zm8-87-24-23 16-16 24 24Zm39 40-23-24 15-16 24 24ZM91 358l63 63-16 16-63-63zm63 16 23 24-15 15-24-23zm-40-39 24 23-16 16-23-24zm24-24 63 63-16 16-63-63zm16-220-63 63-16-16 63-63zm23 23-63 63-15-16 63-63zm24 24-63 63-16-16 63-63z"></path><path fill="#d80027" d="M319 319 193 193a89 89 0 1 1 126 126z"></path><path fill="#0052b4" d="M319 319a89 89 0 1 1-126-126z"></path><circle cx="224.5" cy="224.5" r="44.5" fill="#d80027"></circle><circle cx="287.5" cy="287.5" r="44.5" fill="#0052b4"></circle></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">South Korea</td>
+<td class="gt_row gt_center" headers="change">-3</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="11.51" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">190.0</text><polyline points="6.47,49.35 9.95,33.93 13.42,30.21 16.89,23.83 20.37,25.42 23.84,22.23 27.32,19.04 30.79,19.57 34.27,19.04 37.74,20.11 41.22,10.54 44.69,10.54 48.17,10.01 51.64,9.47 55.11,9.47 58.59,8.41 62.06,7.88 65.54,9.47 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="9.47" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="49.35" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.88" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Japan
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h512v512H0z"></path><circle cx="256" cy="256" r="111.3" fill="#d80027"></circle></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Japan</td>
+<td class="gt_row gt_center" headers="change">-4</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="11.51" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">190.0</text><polyline points="6.47,42.43 9.95,28.61 13.42,25.42 16.89,20.11 20.37,22.76 23.84,20.11 27.32,19.04 30.79,19.57 34.27,18.51 37.74,19.04 41.22,9.47 44.69,9.47 48.17,8.94 51.64,8.41 55.11,8.41 58.59,7.88 62.06,7.35 65.54,9.47 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="9.47" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="42.43" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.35" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Spain
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 128 256-32 256 32v256l-256 32L0 384Z"></path><path fill="#d80027" d="M0 0h512v128H0zm0 384h512v128H0z"></path><g fill="#eee"><path d="M144 304h-16v-80h16zm128 0h16v-80h-16z"></path><ellipse cx="208" cy="296" rx="48" ry="32"></ellipse></g><g fill="#d80027"><rect width="16" height="24" x="128" y="192" rx="8"></rect><rect width="16" height="24" x="272" y="192" rx="8"></rect><path d="M208 272v24a24 24 0 0 0 24 24 24 24 0 0 0 24-24v-24h-24z"></path></g><rect width="32" height="16" x="120" y="208" fill="#ff9811" ry="8"></rect><rect width="32" height="16" x="264" y="208" fill="#ff9811" ry="8"></rect><rect width="32" height="16" x="120" y="304" fill="#ff9811" rx="8"></rect><rect width="32" height="16" x="264" y="304" fill="#ff9811" rx="8"></rect><path fill="#ff9811" d="M160 272v24c0 8 4 14 9 19l5-6 5 10a21 21 0 0 0 10 0l5-10 5 6c6-5 9-11 9-19v-24h-9l-5 8-5-8h-10l-5 8-5-8z"></path><path d="M122 252h172m-172 24h28m116 0h28"></path><path fill="#d80027" d="M122 248a4 4 0 0 0-4 4 4 4 0 0 0 4 4h172a4 4 0 0 0 4-4 4 4 0 0 0-4-4zm0 24a4 4 0 0 0-4 4 4 4 0 0 0 4 4h28a4 4 0 0 0 4-4 4 4 0 0 0-4-4zm144 0a4 4 0 0 0-4 4 4 4 0 0 0 4 4h28a4 4 0 0 0 4-4 4 4 0 0 0-4-4z"></path><path fill="#eee" d="M196 168c-7 0-13 5-15 11l-5-1c-9 0-16 7-16 16s7 16 16 16c7 0 13-4 15-11a16 16 0 0 0 17-4 16 16 0 0 0 17 4 16 16 0 1 0 10-20 16 16 0 0 0-27-5c-3-4-7-6-12-6zm0 8c5 0 8 4 8 8 0 5-3 8-8 8-4 0-8-3-8-8 0-4 4-8 8-8zm24 0c5 0 8 4 8 8 0 5-3 8-8 8-4 0-8-3-8-8 0-4 4-8 8-8zm-44 10 4 1 4 8c0 4-4 7-8 7s-8-3-8-8c0-4 4-8 8-8zm64 0c5 0 8 4 8 8 0 5-3 8-8 8-4 0-8-3-8-7l4-8z"></path><path fill="none" d="M220 284v12c0 7 5 12 12 12s12-5 12-12v-12z"></path><path fill="#ff9811" d="M200 160h16v32h-16z"></path><path fill="#eee" d="M208 224h48v48h-48z"></path><path fill="#d80027" d="m248 208-8 8h-64l-8-8c0-13 18-24 40-24s40 11 40 24zm-88 16h48v48h-48z"></path><rect width="20" height="32" x="222" y="232" fill="#d80027" rx="10" ry="10"></rect><path fill="#ff9811" d="M168 232v8h8v16h-8v8h32v-8h-8v-16h8v-8zm8-16h64v8h-64z"></path><g fill="#ffda44"><circle cx="186" cy="202" r="6"></circle><circle cx="208" cy="202" r="6"></circle><circle cx="230" cy="202" r="6"></circle></g><path fill="#d80027" d="M169 272v43a24 24 0 0 0 10 4v-47h-10zm20 0v47a24 24 0 0 0 10-4v-43h-10z"></path><g fill="#338af3"><circle cx="208" cy="272" r="16"></circle><rect width="32" height="16" x="264" y="320" ry="8"></rect><rect width="32" height="16" x="120" y="320" ry="8"></rect></g></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Spain</td>
+<td class="gt_row gt_center" headers="change">-5</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.04" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">189.0</text><polyline points="6.47,42.97 9.95,28.61 13.42,25.42 16.89,20.11 20.37,22.76 23.84,20.11 27.32,19.04 30.79,20.11 34.27,17.45 37.74,17.98 41.22,11.07 44.69,11.60 48.17,10.54 51.64,10.01 55.11,10.01 58.59,9.47 62.06,7.35 65.54,10.01 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.01" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="42.97" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.35" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Italy
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M167 0h178l25.9 252.3L345 512H167l-29.8-253.4z"></path><path fill="#6da544" d="M0 0h167v512H0z"></path><path fill="#d80027" d="M345 0h167v512H345z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Italy</td>
+<td class="gt_row gt_center" headers="change">-5</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.04" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">189.0</text><polyline points="6.47,42.43 9.95,28.61 13.42,24.89 16.89,19.57 20.37,22.23 23.84,19.57 27.32,19.04 30.79,19.57 34.27,17.45 37.74,17.98 41.22,11.07 44.69,11.07 48.17,10.54 51.64,10.01 55.11,10.01 58.59,10.01 62.06,7.35 65.54,10.01 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.01" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="42.43" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.35" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Ireland
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M167 0h178l25.9 252.3L345 512H167l-29.8-253.4z"></path><path fill="#6da544" d="M0 0h167v512H0z"></path><path fill="#ff9811" d="M345 0h167v512H345z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Ireland</td>
+<td class="gt_row gt_center" headers="change">-3</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.04" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">189.0</text><polyline points="6.47,41.90 9.95,27.55 13.42,25.95 16.89,20.64 20.37,22.76 23.84,20.11 27.32,19.57 30.79,20.64 34.27,19.04 37.74,19.04 41.22,12.13 44.69,12.66 48.17,11.60 51.64,11.07 55.11,11.07 58.59,11.07 62.06,8.41 65.54,10.01 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.01" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="41.90" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="8.41" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Germany
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 345 256.7-25.5L512 345v167H0z"></path><path fill="#d80027" d="m0 167 255-23 257 23v178H0z"></path><path fill="#333" d="M0 0h512v167H0z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Germany</td>
+<td class="gt_row gt_center" headers="change">-5</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.04" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">189.0</text><polyline points="6.47,41.90 9.95,28.08 13.42,24.89 16.89,19.04 20.37,21.17 23.84,19.04 27.32,17.98 30.79,18.51 34.27,16.39 37.74,16.92 41.22,10.54 44.69,10.54 48.17,10.01 51.64,9.47 55.11,9.47 58.59,9.47 62.06,7.35 65.54,10.01 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.01" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="41.90" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.35" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Finland
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h133.6l35.3 16.7L200.3 0H512v222.6l-22.6 31.7 22.6 35.1V512H200.3l-32-19.8-34.7 19.8H0V289.4l22.1-33.3L0 222.6z"></path><path fill="#0052b4" d="M133.6 0v222.6H0v66.8h133.6V512h66.7V289.4H512v-66.8H200.3V0h-66.7z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Finland</td>
+<td class="gt_row gt_center" headers="change">-4</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.04" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">189.0</text><polyline points="6.47,41.37 9.95,27.55 13.42,24.36 16.89,18.51 20.37,21.17 23.84,18.51 27.32,17.98 30.79,19.04 34.27,17.45 37.74,17.98 41.22,11.07 44.69,10.54 48.17,10.54 51.64,10.01 55.11,10.01 58.59,10.01 62.06,7.88 65.54,10.01 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.01" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="41.37" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.88" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Denmark
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h133.6l32.7 20.3 34-20.3H512v222.6L491.4 256l20.6 33.4V512H200.3l-31.7-20.4-35 20.4H0V289.4l29.4-33L0 222.7z"></path><path fill="#eee" d="M133.6 0v222.6H0v66.8h133.6V512h66.7V289.4H512v-66.8H200.3V0h-66.7z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Denmark</td>
+<td class="gt_row gt_center" headers="change">-3</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.04" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">189.0</text><polyline points="6.47,41.37 9.95,27.02 13.42,23.30 16.89,18.51 20.37,20.64 23.84,19.04 27.32,18.51 30.79,19.57 34.27,17.98 37.74,17.98 41.22,11.07 44.69,11.07 48.17,11.07 51.64,10.54 55.11,10.54 58.59,10.54 62.06,8.41 65.54,10.01 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.01" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="41.37" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="8.41" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Sweden
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h133.6l35.3 16.7L200.3 0H512v222.6l-22.6 31.7 22.6 35.1V512H200.3l-32-19.8-34.7 19.8H0V289.4l22.1-33.3L0 222.6z"></path><path fill="#ffda44" d="M133.6 0v222.6H0v66.8h133.6V512h66.7V289.4H512v-66.8H200.3V0z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Sweden</td>
+<td class="gt_row gt_center" headers="change">-5</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="12.58" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="14.20px" lengthadjust="spacingAndGlyphs">188.0</text><polyline points="6.47,41.90 9.95,28.08 13.42,23.83 16.89,18.51 20.37,21.17 23.84,18.51 27.32,17.98 30.79,19.04 34.27,16.92 37.74,17.45 41.22,11.07 44.69,11.60 48.17,11.60 51.64,11.07 55.11,10.54 58.59,10.54 62.06,7.88 65.54,10.54 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="10.54" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="41.90" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="7.88" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="whohgziumr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#whohgziumr table {
+  font-family: 'Courier New', system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#whohgziumr thead, #whohgziumr tbody, #whohgziumr tfoot, #whohgziumr tr, #whohgziumr td, #whohgziumr th {
+  border-style: none;
+}
+
+#whohgziumr p {
+  margin: 0;
+  padding: 0;
+}
+
+#whohgziumr .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFF8DC;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#whohgziumr .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#whohgziumr .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFF8DC;
+  border-bottom-width: 0;
+}
+
+#whohgziumr .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFF8DC;
+  border-top-width: 0;
+}
+
+#whohgziumr .gt_heading {
+  background-color: #FFF8DC;
+  text-align: center;
+  border-bottom-color: #FFF8DC;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#whohgziumr .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#whohgziumr .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#whohgziumr .gt_col_heading {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#whohgziumr .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#whohgziumr .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#whohgziumr .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#whohgziumr .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#whohgziumr .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#whohgziumr .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#whohgziumr .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#whohgziumr .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#whohgziumr .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#whohgziumr .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#whohgziumr .gt_stub {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#whohgziumr .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFF8DC;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#whohgziumr .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#whohgziumr .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#whohgziumr .gt_summary_row {
+  color: #333333;
+  background-color: #FFF8DC;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#whohgziumr .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#whohgziumr .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#whohgziumr .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#whohgziumr .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFF8DC;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#whohgziumr .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#whohgziumr .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#whohgziumr .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#whohgziumr .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#whohgziumr .gt_footnotes {
+  color: #333333;
+  background-color: #FFF8DC;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#whohgziumr .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#whohgziumr .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFF8DC;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#whohgziumr .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#whohgziumr .gt_left {
+  text-align: left;
+}
+
+#whohgziumr .gt_center {
+  text-align: center;
+}
+
+#whohgziumr .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#whohgziumr .gt_font_normal {
+  font-weight: normal;
+}
+
+#whohgziumr .gt_font_bold {
+  font-weight: bold;
+}
+
+#whohgziumr .gt_font_italic {
+  font-style: italic;
+}
+
+#whohgziumr .gt_super {
+  font-size: 65%;
+}
+
+#whohgziumr .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#whohgziumr .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#whohgziumr .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#whohgziumr .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#whohgziumr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#whohgziumr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#whohgziumr .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#whohgziumr .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#whohgziumr div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<th colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border"><strong>Top 10 Least Powerful Passports</strong></th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="iso_a2" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="country" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Country</th>
+<th id="change" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">2024-2025 Change</th>
+<th id="dir" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col"></th>
+<th id="visa_free_count_list" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Visa Free Count Over Time (2006-2025)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Afghanistan
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#d80027" d="M144.7 0h222.6l37 257.7-37 254.3H144.7l-42.4-255.2z"></path><path fill="#496e2d" d="M367.3 0H512v512H367.3z"></path><path fill="#333" d="M0 0h144.7v512H0z"></path><g fill="#ffda44"><path d="M256 167a89 89 0 1 0 0 178 89 89 0 0 0 0-178zm0 144.7a55.7 55.7 0 1 1 0-111.4 55.7 55.7 0 0 1 0 111.4z"></path><path d="M256 222.6c-12.3 0-22.3 10-22.3 22.3v33.4h44.6v-33.4c0-12.3-10-22.3-22.3-22.3z"></path></g></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Afghanistan</td>
+<td class="gt_row gt_center" headers="change">-3</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="27.52" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">25.0</text><polyline points="6.47,37.89 9.95,28.35 13.42,24.53 16.89,26.44 20.37,24.53 23.84,22.62 27.32,22.62 30.79,25.48 34.27,25.48 37.74,26.44 41.22,20.71 44.69,25.48 48.17,24.53 51.64,24.53 55.11,24.53 58.59,23.57 62.06,22.62 65.54,25.48 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="25.48" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="37.89" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="41.22" cy="20.71" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Syria
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 167 253.8-19.3L512 167v178l-254.9 32.3L0 345z"></path><path fill="#d80027" d="M0 0h512v167H0z"></path><path fill="#333" d="M0 345h512v167H0z"></path><path fill="#6da544" d="m153 194.8 13.8 42.5h44.7l-36.2 26.3 13.8 42.5-36.1-26.3-36.2 26.3 13.8-42.5-36.2-26.3h44.7zm206 0 13.9 42.5h44.7l-36.2 26.3 13.8 42.5-36.2-26.3-36.1 26.3 13.8-42.5-36.2-26.3h44.7z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Syria</td>
+<td class="gt_row gt_center" headers="change">-2</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="25.61" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">27.0</text><polyline points="6.47,34.07 9.95,20.71 13.42,12.12 16.89,14.03 20.37,14.03 23.84,12.12 27.32,13.07 30.79,17.85 34.27,18.80 37.74,21.67 41.22,18.80 44.69,21.67 48.17,21.67 51.64,21.67 55.11,21.67 58.59,20.71 62.06,21.67 65.54,23.57 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="23.57" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="34.07" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="13.42" cy="12.12" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle><circle cx="23.84" cy="12.12" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Iraq
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 167 253.8-19.3L512 167v178l-254.9 32.3L0 345z"></path><path fill="#a2001d" d="M0 0h512v167H0z"></path><path fill="#333" d="M0 345h512v167H0z"></path><path fill="#496e2d" d="M194.8 239.3h-49.4a22.3 22.3 0 0 1 21.6-16.7v-33.4c-30.7 0-55.7 25-55.7 55.7v27.8h83.5a5.6 5.6 0 0 1 5.5 5.6v11H89v33.5h144.7v-44.5a39 39 0 0 0-39-39zm83.5 50v-100h-33.4v133.5h55.6v-33.4zm111.3 0v-100h-33.4v100H345V256h-33.3v66.8h100.1v-33.4z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Iraq</td>
+<td class="gt_row gt_center" headers="change">-1</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="22.75" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">30.0</text><polyline points="6.47,35.03 9.95,27.39 13.42,23.57 16.89,22.62 20.37,20.71 23.84,19.76 27.32,19.76 30.79,21.67 34.27,20.71 37.74,23.57 41.22,20.71 44.69,23.57 48.17,22.62 51.64,22.62 55.11,22.62 58.59,21.67 62.06,19.76 65.54,20.71 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="20.71" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="35.03" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="23.84" cy="19.76" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle><circle cx="27.32" cy="19.76" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle><circle cx="62.06" cy="19.76" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Yemen
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="m0 167 253.8-19.3L512 167v178l-254.9 32.3L0 345z"></path><path fill="#d80027" d="M0 0h512v167H0z"></path><path fill="#333" d="M0 345h512v167H0z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Yemen</td>
+<td class="gt_row gt_center" headers="change">-3</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="20.84" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">32.0</text><polyline points="6.47,32.16 9.95,20.71 13.42,13.07 16.89,12.12 20.37,10.21 23.84,8.30 27.32,8.30 30.79,12.12 34.27,13.07 37.74,15.94 41.22,14.03 44.69,17.85 48.17,17.85 51.64,17.85 55.11,17.85 58.59,16.89 62.06,15.94 65.54,18.80 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="18.80" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="32.16" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="23.84" cy="8.30" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle><circle cx="27.32" cy="8.30" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Somalia
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#338af3" d="M0 0h512v512H0z"></path><path fill="#eee" d="m256 133.6 27.6 85H373L300.7 271l27.6 85-72.3-52.5-72.3 52.6 27.6-85-72.3-52.6h89.4z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Somalia</td>
+<td class="gt_row gt_center" headers="change">-4</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="20.84" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">32.0</text><polyline points="6.47,35.03 9.95,25.48 13.42,19.76 16.89,22.62 20.37,22.62 23.84,18.80 27.32,18.80 30.79,20.71 34.27,19.76 37.74,20.71 41.22,18.80 44.69,19.76 48.17,17.85 51.64,16.89 55.11,16.89 58.59,15.94 62.06,14.98 65.54,18.80 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="18.80" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="35.03" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="62.06" cy="14.98" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Pakistan
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h133.6l50.2 252.5L133.6 512H0z"></path><path fill="#496e2d" d="M133.6 0H512v512H133.6z"></path><path fill="#eee" d="M365.5 298.3A72.3 72.3 0 1 1 313.7 168a89 89 0 1 0 74.6 103.2 72 72 0 0 1-22.8 27.2zM364 167l18.2 19.6 24.3-11.3-13 23.5 18.2 19.6-26.3-5.1-13 23.4-3.3-26.7-26.1-5 24.4-11.3z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Pakistan</td>
+<td class="gt_row gt_center" headers="change">-2</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="20.84" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">32.0</text><polyline points="6.47,33.12 9.95,25.48 13.42,14.98 16.89,19.76 20.37,18.80 23.84,18.80 27.32,18.80 30.79,19.76 34.27,21.67 37.74,22.62 41.22,17.85 44.69,19.76 48.17,18.80 51.64,19.76 55.11,19.76 58.59,18.80 62.06,16.89 65.54,18.80 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="18.80" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="33.12" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="13.42" cy="14.98" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Nepal
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M228.4 0H512v512h-27.4L159.4 258.5z"></path><path fill="#0052b4" d="M510.5 283.8 228.5 0h-39.3l-70.9 253.8L445.2 512h39.4L256.4 283.8h254z"></path><path fill="#d80027" d="M445.2 256 189.2 0H0v512h445.2l-256-256z"></path><path fill="#eee" d="m243.5 378-31.3-14.7L229 333l-34 6.5-4.3-34.3-23.6 25.2-23.7-25.2-4.3 34.3-34-6.5 16.7 30.3L90.4 378l31.3 14.7-16.6 30.3 34-6.5 4.2 34.3 23.7-25.2 23.6 25.2 4.3-34.3 34 6.5-16.7-30.3zM149.8 89l-3.2 25-24.7-4.7 12.1 22-22.7 10.7h-11.1a66.8 66.8 0 0 0 133.5 0h-11.1L200 131.3l12-22-24.6 4.7-3.1-25-17.2 18.4z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Nepal</td>
+<td class="gt_row gt_center" headers="change">-2</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="15.11" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">38.0</text><polyline points="6.47,30.26 9.95,18.80 13.42,13.07 16.89,16.89 20.37,15.94 23.84,14.03 27.32,14.03 30.79,16.89 34.27,14.03 37.74,14.98 41.22,11.17 44.69,13.07 48.17,13.07 51.64,14.03 55.11,14.03 58.59,13.07 62.06,11.17 65.54,13.07 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="13.07" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="30.26" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="41.22" cy="11.17" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle><circle cx="62.06" cy="11.17" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Libya
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#333" d="m0 144.7 257-22.4 255 22.4v222.6l-254.9 31L0 367.3z"></path><path fill="#d80027" d="M0 0h512v144.7H0z"></path><path fill="#496e2d" d="M0 367.3h512V512H0z"></path><g fill="#eee"><path d="m315.6 209.3 21 29 34-11-21 29 21 28.8-34-11-21 29v-36l-34-11 34-11z"></path><path d="M258.3 328.4a72.3 72.3 0 1 1 34.4-136 89 89 0 1 0 0 127.3 72 72 0 0 1-34.4 8.7z"></path></g></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Libya</td>
+<td class="gt_row gt_center" headers="change">-2</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="15.11" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">38.0</text><polyline points="6.47,31.21 9.95,18.80 13.42,12.12 16.89,13.07 20.37,12.12 23.84,12.12 27.32,13.07 30.79,14.03 34.27,14.98 37.74,17.85 41.22,10.21 44.69,14.03 48.17,13.07 51.64,11.17 55.11,11.17 58.59,10.21 62.06,11.17 65.54,13.07 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="13.07" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="31.21" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="41.22" cy="10.21" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle><circle cx="58.59" cy="10.21" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Palestine
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#eee" d="M41.3 121.9 512 167v178L43.8 391.3z"></path><path fill="#333" d="M0 0h512v167H111z"></path><path fill="#6da544" d="M111 345h401v167H0z"></path><path fill="#d80027" d="M0 0v512l256-256z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Palestinian Territory</td>
+<td class="gt_row gt_center" headers="change">-1</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.66" y="14.16" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">39.0</text><polyline points="6.63,49.35 10.31,49.35 13.99,17.85 17.67,18.80 21.35,14.98 25.03,15.94 28.71,16.89 32.40,14.03 36.08,14.98 39.76,12.12 43.44,14.03 47.12,13.07 50.80,14.03 54.48,14.03 58.17,13.07 61.85,11.17 65.53,12.12 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.53" cy="12.12" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.63" cy="49.35" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="10.31" cy="49.35" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="61.85" cy="11.17" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left" headers="iso_a2"><span style="white-space:nowrap;">
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="512" height="512" viewbox="0 0 512 512" style="vertical-align:-0.125em;image-rendering:optimizeQuality;height:1em;width:1em;">
+<title>
+Eritrea
+</title>
+<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"></circle></mask><g mask="url(#a)"><path fill="#6da544" d="M0 0h512v256H62z"></path><path fill="#338af3" d="M62 256h450v256H0z"></path><path fill="#d80027" d="M0 0v512l512-256z"></path><path fill="#ffda44" d="M133.6 150.3c-49.1 0-89 40-89 89v33.4a89.1 89.1 0 0 0 178 0v-33.4c0-49-40-89-89-89zm55.6 122.4c0 24.9-16.4 46-39 53v-36.3l23.7-23.6-23.6-23.6v-19.6h-33.4V256l-23.6 23.6 23.6 23.6v22.6a55.7 55.7 0 0 1-39-53.1v-33.4a55.7 55.7 0 0 1 111.3 0z"></path></g>
+</svg>
+</span></td>
+<td class="gt_row gt_left" headers="country">Eritrea</td>
+<td class="gt_row gt_center" headers="change">-4</td>
+<td class="gt_row gt_left" headers="dir"><span style="white-space:nowrap;">
+<svg aria-label="Arrow Down" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:red;overflow:visible;position:relative;">
+<title>
+Arrow Down
+</title>
+<path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path>
+</svg>
+</span></td>
+<td class="gt_row gt_center" headers="visa_free_count_list"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="56.69pt" viewbox="0 0 85.04 56.69">
+<g class="svglite"><defs>
+<style type="text/css">    .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {      fill: none;      stroke: #000000;      stroke-linecap: round;      stroke-linejoin: round;      stroke-miterlimit: 10.00;    }    .svglite text {      white-space: pre;    }    .svglite g.glyphgroup path {      fill: inherit;      stroke: none;    }  </style>
+</defs><rect width="100%" height="100%" style="stroke: none; fill: none;"></rect><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5"> <rect x="0.00" y="0.00" width="85.04" height="56.69"></rect> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDU2LjY5)"><rect x="0.00" y="0.0000000000000071" width="85.04" height="56.69" style="stroke-width: 0.00; stroke: none;"></rect><text x="68.67" y="14.16" style="font-size: 5.69px; font-family: &quot;Arial&quot;;" textlength="11.05px" lengthadjust="spacingAndGlyphs">39.0</text><polyline points="6.47,30.26 9.95,21.67 13.42,17.85 16.89,18.80 20.37,16.89 23.84,14.98 27.32,13.07 30.79,16.89 34.27,14.03 37.74,15.94 41.22,12.12 44.69,11.17 48.17,9.26 51.64,8.30 55.11,8.30 58.59,7.35 62.06,8.30 65.54,12.12 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="65.54" cy="12.12" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="6.47" cy="30.26" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="58.59" cy="7.35" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
