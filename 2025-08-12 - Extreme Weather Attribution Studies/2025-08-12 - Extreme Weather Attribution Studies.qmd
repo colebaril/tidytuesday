@@ -1,18 +1,40 @@
+---
+title: "2025-08-12 - Extreme Weather Attribution Studies"
+author: "Cole Baril"
+format: html
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+  fig-align: center
+  fig-width: 20
+  fig-height: 12
+  dpi: 300
+---
+
+```{r, load_packages}
 require(pacman)
 p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR)
 
 options(scipen = 999)
+```
 
+```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-08-12')
 attribution_studies <- tuesdata$attribution_studies
 attribution_studies_raw <- tuesdata$attribution_studies_raw
+```
 
+```{r, data_cleaning_explore}
 attribution_studies |> 
   distinct(event_type)
 
 attribution_studies |> 
   distinct(classification)
+```
 
+```{r, plot}
 attribution_studies |> 
   filter(event_type %in% c("Cold, snow & ice", "Drought", "Heat", "Rain & flooding", "Wildfire")) |> 
   reframe(n = n(),
@@ -48,6 +70,4 @@ attribution_studies |>
         axis.line = element_line(colour = "black"),
         plot.margin = margin(0.1, 2, 0.1, 0.1, "cm")) +
   guides(color = guide_legend(override.aes = list(size = 7))) 
-
-ggsave(here("2025-08-12 - Extreme Weather Attribution Studies/Extreme Weather Attribution Studies.png"), plot = last_plot(), width = 20, height = 12, dpi = 300)
-  
+```

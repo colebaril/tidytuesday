@@ -2,9 +2,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Cole’s tidytuesday Archive",
+    "title": "Cole’s TidyTuesday Archive",
     "section": "",
-    "text": "Click the links below to explore some of my weekly tidytuesday posts"
+    "text": "Click the links below to explore some of my weekly TidyTuesday posts"
   },
   {
     "objectID": "2025-09-02 - Australian Frogs/2025-09-02 - Australian Frogs.html",
@@ -37,16 +37,16 @@
   {
     "objectID": "index.html#section-1",
     "href": "index.html#section-1",
-    "title": "Cole’s tidytuesday Archive",
+    "title": "Cole’s TidyTuesday Archive",
     "section": "2025",
-    "text": "2025\n\n\n\n2025-08-19 - Scottish Munros\nExploring Scottish Munro (e.g., mountain) data.\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country.\n\n\n\n2025-09-09 – Another Week\nA deep dive into a new dataset."
+    "text": "2025\n\n\n\n2025-08-12 - Extreme Weather Attribution Studies\nExploring extreme weather causes.\n\n\n\n2025-08-19 - Scottish Munros\nExploring Scottish Munro (e.g., mountain) data.\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country."
   },
   {
     "objectID": "index.html#section",
     "href": "index.html#section",
-    "title": "Cole’s tidytuesday Archive",
+    "title": "Cole’s TidyTuesday Archive",
     "section": "2026",
-    "text": "2026"
+    "text": "2026\n\n\n\n2026-01-06 - Bring Your Own Data\nExploring passport power for each country."
   },
   {
     "objectID": "2025-09-09 - Passport Power/2025-09-09 - Passport Power.html#world-map",
@@ -110,5 +110,12 @@
     "title": "tidytuesday",
     "section": "How to Use This Site",
     "text": "How to Use This Site\n\nVisit the Home page to see a gallery of weekly posts\n\nClick any post to explore individual visualizations and summaries\n\n\nI hope this site inspires others to explore datasets, create visualizations, and share their own insights with the community. Happy tidying!"
+  },
+  {
+    "objectID": "2025-08-12 - Extreme Weather Attribution Studies/2025-08-12 - Extreme Weather Attribution Studies.html",
+    "href": "2025-08-12 - Extreme Weather Attribution Studies/2025-08-12 - Extreme Weather Attribution Studies.html",
+    "title": "2025-08-12 - Extreme Weather Attribution Studies",
+    "section": "",
+    "text": "require(pacman)\np_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR)\n\noptions(scipen = 999)\n\n\ntuesdata &lt;- tidytuesdayR::tt_load('2025-08-12')\nattribution_studies &lt;- tuesdata$attribution_studies\nattribution_studies_raw &lt;- tuesdata$attribution_studies_raw\n\n\nattribution_studies |&gt; \n  distinct(event_type)\n\n# A tibble: 12 × 1\n   event_type      \n   &lt;chr&gt;           \n 1 Heat            \n 2 Rain & flooding \n 3 Storm           \n 4 Drought         \n 5 Cold, snow & ice\n 6 Oceans          \n 7 Impact          \n 8 Compound        \n 9 Wildfire        \n10 Atmosphere      \n11 Sunshine        \n12 River flow      \n\nattribution_studies |&gt; \n  distinct(classification)\n\n# A tibble: 4 × 1\n  classification                               \n  &lt;chr&gt;                                        \n1 More severe or more likely to occur          \n2 No discernible human influence               \n3 Insufficient data/inconclusive               \n4 Decrease, less severe or less likely to occur\n\n\n\nattribution_studies |&gt; \n  filter(event_type %in% c(\"Cold, snow & ice\", \"Drought\", \"Heat\", \"Rain & flooding\", \"Wildfire\")) |&gt; \n  reframe(n = n(),\n          .by = c(\"publication_year\", \"event_type\", \"classification\")) |&gt; \n  ggplot(aes(x = publication_year, y = n, colour = classification)) +\n  geom_point(aes(size = n)) + \n  geom_smooth(aes(groups = classification), method = \"lm\", se = FALSE) +\n  facet_wrap(~event_type) +\n  labs(x = \"Publication Year\",\n       y = \"Number of Studies\",\n       title = \"Charting Attribution: Studies Linking Climate Change to Extreme Weather (2000–2024)\",\n       subtitle = \"Studies across all event types have grown steadily, with most finding that climate change increases the severity or likelihood of extremes.\",\n       size = \"Number of Attribution Studies\",\n       colour = \"Study Finding\") +\n  scale_colour_brewer(palette = \"Set2\") +\n  theme_bw(base_size = 15, base_family = \"Courier New\") +\n  theme(panel.grid.major.x = element_blank(),\n        panel.grid.major.y = element_blank(),\n        panel.grid.minor.x = element_blank(),\n        panel.grid.minor.y = element_blank(),\n        strip.text = element_text(face = \"bold\", size = 14),\n        plot.title = element_text(face = \"bold\", hjust = 0.5, size = 20),\n        plot.subtitle = element_text(hjust = 0.5),\n        legend.position = \"inside\",\n        legend.position.inside = c(.825, .25),\n        legend.title.position = \"top\",\n        legend.title = element_text(hjust = 0),\n        legend.key.width = unit(2.5, \"lines\"),\n        legend.key.height = unit(1, \"lines\"),\n        legend.background = element_rect(fill = \"#f5f5f2\"),\n        plot.background = element_rect(fill = \"#f5f5f2\", color = \"#f5f5f2\"),\n        panel.background = element_rect(fill = \"#f5f5f2\", color = \"#f5f5f2\"),\n        axis.line = element_line(colour = \"black\"),\n        plot.margin = margin(0.1, 2, 0.1, 0.1, \"cm\")) +\n  guides(color = guide_legend(override.aes = list(size = 7)))"
   }
 ]
