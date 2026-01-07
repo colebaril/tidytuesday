@@ -1,5 +1,5 @@
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider)
+p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR)
 
 options(scipen = 999)
 
@@ -7,16 +7,35 @@ tuesdata <- tidytuesdayR::tt_load('2025-07-01')
 
 weekly_gas_prices <- tuesdata$weekly_gas_prices
 
+cpi <- read_csv(here("2025-07-01 - US Weekly Gas Prices/cpi.csv")) |> 
+  mutate(year = year(observation_date)) |> 
+  rename("cpi" = 2) |> select(-1)
+
+weekly_gas_prices |> 
+  filter(grade == "all") |> 
+  ggplot(aes(x = date, y = price)) +
+  geom_line() +
+  facet_wrap(~fuel) +
+  theme_bw(base_size =)
+
 
 
 vol_df <- weekly_gas_prices |> 
   filter(grade == "all") |> 
+  filter(!formulation %in% c("conventional", "reformulated")) |> 
+  mutate(year = year(date)) |> 
+  left_join(cpi, by = "year") |> 
+  mutate(adjusted_price = price * (144.475 / cpi)) |> 
+
   mutate(fuel = str_to_title(fuel)) |> 
   arrange(fuel, date) |> 
+  drop_na(adjusted_price) |> 
 
   mutate(
-    log_return = log(price / lag(price)),
+    log_return = log(adjusted_price / lag(adjusted_price)),
     volatility_52w = slide_dbl(log_return, sd, .before = 51, .complete = TRUE),
+    ewma_12w = EMA(adjusted_price, n = 12) / 100,  
+    ewma_26w = EMA(adjusted_price, n = 26),   
     .by = fuel
   ) |> 
 
@@ -38,26 +57,27 @@ ggplot(vol_df, aes(x = date, y = volatility_52w, color = fuel)) +
     date_labels = "%Y"
   ) +
   
-  # Add shaded event periods
-  geom_rect(data = events, inherit.aes = FALSE,
-            aes(xmin = start_date, xmax = end_date, ymin = 0, ymax = Inf),
-            fill = "grey80", alpha = 0.4) +
-  
-  # Add event labels (optional, adjust y position as needed)
-  geom_text(
-    data = events, inherit.aes = FALSE,
-    aes(
-      x = start_date + (end_date - start_date)/2,
-      y = -0.005,  # Adjust lower if needed
-      label = event
-    ),
-    angle = 0,  # Horizontal text
-    vjust = 1, hjust = 0.5, size = 5, color = "black", fontface = "bold"
-  ) +
+  # # Add shaded event periods
+  # geom_rect(data = events, inherit.aes = FALSE,
+  #           aes(xmin = start_date, xmax = end_date, ymin = 0, ymax = Inf),
+  #           fill = "grey80", alpha = 0.4) +
+  # 
+  # # Add event labels (optional, adjust y position as needed)
+  # geom_text(
+  #   data = events, inherit.aes = FALSE,
+  #   aes(
+  #     x = start_date + (end_date - start_date)/2,
+  #     y = -0.005,  # Adjust lower if needed
+  #     label = event
+  #   ),
+  #   angle = 0,  # Horizontal text
+  #   vjust = 1, hjust = 0.5, size = 5, color = "black", fontface = "bold"
+  # ) +
   
   
   labs(
     title = "52-Week Rolling Volatility of Weekly U.S. Gas Prices",
+    subtitle = "Indexed to inflation, all gasoline formulations",
     x = "Date",
     y = "Gasoline Price Volatility (Log Return SD)",
     caption = "Data: U.S. Energy Information Administration",
@@ -83,5 +103,42 @@ ggplot(vol_df, aes(x = date, y = volatility_52w, color = fuel)) +
         axis.line = element_line(colour = "black"))
 
 ggsave("gasoline_rolling_volatility.png", plot = last_plot(), width = 16, height = 10)
+
+
+ggplot(vol_df) +
+  geom_line(aes(x = date, y = volatility_52w), colour = "cadetblue", na.rm = TRUE, size = 1) +
+  geom_line(aes(x = date, y = ewma_12w), colour = "firebrick3", na.rm = TRUE, size = 1) +
+  scale_x_date(
+    breaks = as.Date(c("1995-01-01", "2000-01-01", "2005-01-01", "2010-01-01", 
+                       "2015-01-01", "2020-01-01", "2025-01-01")),
+    date_labels = "%Y"
+  ) +
+  facet_wrap(~fuel) +
+  labs(
+    title = "52-Week Rolling Volatility of Weekly U.S. Gas Prices",
+    subtitle = "Indexed to inflation, all gasoline formulations",
+    x = "Date",
+    y = "Gasoline Price Volatility (Log Return SD)",
+    caption = "Data: U.S. Energy Information Administration",
+    color = "Fuel Type"
+  ) +
+  theme_bw(base_size = 20, base_family = "Courier New") +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        strip.text = element_text(face = "bold", size = 14),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "top",
+        legend.title.position = "top",
+        legend.title = element_text(hjust = 0.5),
+        legend.key.width = unit(2.5, "lines"),
+        legend.key.height = unit(1, "lines"),
+        legend.background = element_rect(fill = "#f5f5f2"),
+        plot.background = element_rect(fill = "#f5f5f2", color = "#f5f5f2"),
+        panel.background = element_rect(fill = "#f5f5f2", color = "#f5f5f2"),
+        panel.border = element_blank(),
+        axis.line = element_line(colour = "black"))
 
 
