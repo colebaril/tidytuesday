@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "TidyTuesday Gallery",
+    "section": "",
+    "text": "Welcome to my TidyTuesday projects\nHere are my weekly Tidytuesday posts:\n\n2025-09-02 – Australian Frogs"
+  },
+  {
+    "objectID": "2025-09-02 - Australian Frogs/2025-09-02 - Australian Frogs.html",
+    "href": "2025-09-02 - Australian Frogs/2025-09-02 - Australian Frogs.html",
+    "title": "2025-09-02 - Australian Frogs",
+    "section": "",
+    "text": "require(pacman)\np_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork, hexbin)\n\ntuesdata &lt;- tidytuesdayR::tt_load('2025-09-02')\nfrogs &lt;- tuesdata$frogID_data\nfrog_names &lt;- tuesdata$frog_names\n\nfrogs &lt;- frogs |&gt;\n  clean_names() \n \n\nfrogs_unique &lt;- frogs %&gt;%\n  distinct(decimal_longitude, decimal_latitude, scientific_name)\n\n\naus_states &lt;- ne_states(country = \"australia\", returnclass = \"sf\") |&gt; \n  filter(name != \"Macquarie Island\")\n\nggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +\n  stat_summary_hex(\n    aes(z = as.numeric(factor(scientific_name))),\n    fun = function(x) length(unique(x)),\n    bins = 50\n  ) +\n  geom_sf(data = aus_states, fill = NA, colour = \"black\", size = 0.5, inherit.aes = FALSE) +\n  coord_sf() +\n  scale_fill_viridis_c(option = \"plasma\") +\n  labs(\n    title = \"Australian Frog Species Richness\",\n    subtitle = \"Number of unique frog species recorded per hexagon across Australia in 2023\n    \",\n    caption = \"Data: Australian Society of Herpetologists\",\n    fill = \"Species Richness\"\n  ) +\n  theme_void() +\n  theme(\n    plot.background = element_rect(fill = \"grey99\", color = NA),\n    plot.title = element_text(face = \"bold\", size = 25, hjust = 0.5),\n    plot.subtitle = element_text(size = 15, hjust = 0.5),\n    plot.caption = element_text(size = 12),\n    legend.position = \"top\",\n    legend.key.width = unit(3, \"lines\"),\n    legend.title = element_text(face = \"bold\", size = 15, hjust = 0.5),\n    legend.title.position = \"top\",\n    legend.text = element_text(size = 12),\n    plot.margin = margin(10, 10, 10, 10)\n  )"
+  }
+]

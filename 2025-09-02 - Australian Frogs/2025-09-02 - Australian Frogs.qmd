@@ -1,3 +1,10 @@
+---
+title: "2025-09-02 - Australian Frogs"
+format: html
+editor: visual
+---
+
+```{r}
 require(pacman)
 p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork, hexbin)
 
@@ -45,5 +52,4 @@ ggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +
     legend.text = element_text(size = 12),
     plot.margin = margin(10, 10, 10, 10)
   )
-
-ggsave(here("2025-09-02 - Australian Frogs/Australian Frog Species Richness.png"), plot = last_plot(), width = 15, height = 12, dpi = 300)
+```

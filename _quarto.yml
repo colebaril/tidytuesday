@@ -1,5 +1,14 @@
 project:
   type: website
+  output-dir: docs
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  fig-align: center
+  fig-width: 12
+  dpi: 300
 
 website:
   title: "tidytuesday"
@@ -14,6 +23,7 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
+
 
 
 

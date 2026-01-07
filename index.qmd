@@ -1,7 +1,10 @@
 ---
-title: "tidytuesday"
+title: "TidyTuesday Gallery"
+format: html
 ---
 
-This is a Quarto website.
+# Welcome to my TidyTuesday projects
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+Here are my weekly Tidytuesday posts:
+
+- [2025-09-02 – Australian Frogs](docs/2025-09-02 - Australian Frogs/2025-09-02-Australian-Frogs.html)
