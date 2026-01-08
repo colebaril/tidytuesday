@@ -1,0 +1,140 @@
+---
+title: "2025-07-01 - US Weekly Gas Prices"
+author: "Cole Baril"
+format: html
+editor: source
+---
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR)
+options(scipen = 999)
+```
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2025-07-01')
+weekly_gas_prices <- tuesdata$weekly_gas_prices
+
+# Extra cpi data 
+cpi <- read_csv(here("2025-07-01 - US Weekly Gas Prices/cpi.csv")) |> 
+  mutate(year = year(observation_date)) |> 
+  rename("cpi" = 2) |> select(-1)
+```
+
+```{r, cleaning}
+vol_df <- weekly_gas_prices |> 
+  filter(grade == "all") |> 
+  filter(!formulation %in% c("conventional", "reformulated")) |> 
+  mutate(year = year(date)) |> 
+  left_join(cpi, by = "year") |> 
+  mutate(adjusted_price = price * (144.475 / cpi)) |> 
+
+  mutate(fuel = str_to_title(fuel)) |> 
+  arrange(fuel, date) |> 
+  drop_na(adjusted_price) |> 
+
+mutate(
+  log_return = log(adjusted_price / lag(adjusted_price)),
+
+  vol_12w = slide_dbl(
+    log_return, sd,
+    .before = 11, .complete = TRUE
+  ),
+
+  vol_52w = slide_dbl(
+    log_return, sd,
+    .before = 51, .complete = TRUE
+  ),
+
+  .by = fuel
+) |> 
+
+  group_by(fuel) |> 
+  mutate(volatility = sd(log_return, na.rm = TRUE)) |> 
+  ungroup()
+```
+## 52-Week Rolling Volatility
+```{r, plot}
+
+ggplot(vol_df, aes(x = date, y = vol_52w, color = fuel)) +
+  geom_line(na.rm = TRUE, size = 1) +
+  scale_x_date(
+    breaks = as.Date(c("1995-01-01", "2000-01-01", "2005-01-01", "2010-01-01", 
+                       "2015-01-01", "2020-01-01", "2025-01-01")),
+    date_labels = "%Y"
+  ) +
+  labs(
+    title = "52-Week Rolling Volatility of Weekly U.S. Gas Prices",
+    subtitle = "Indexed to inflation, all gasoline formulations",
+    x = "Date",
+    y = "Gasoline Price Volatility (Log Return SD)",
+    caption = "Data: U.S. Energy Information Administration",
+    color = "Fuel Type"
+  ) +
+  theme_bw(base_size = 20, base_family = "Courier New") +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.minor.y = element_blank(),
+        strip.text = element_text(face = "bold", size = 14),
+        plot.title = element_text(face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5),
+        legend.position = "top",
+        legend.title.position = "top",
+        legend.title = element_text(hjust = 0.5),
+        legend.key.width = unit(2.5, "lines"),
+        legend.key.height = unit(1, "lines"),
+        legend.background = element_rect(fill = "#f5f5f2"),
+        plot.background = element_rect(fill = "#f5f5f2", color = "#f5f5f2"),
+        panel.background = element_rect(fill = "#f5f5f2", color = "#f5f5f2"),
+        panel.border = element_blank(),
+        axis.line = element_line(colour = "black"))
+```
+## 12-Week vs 52-Week Rolling Volatility
+
+```{r, 12-week volatility}
+
+vol_df |> 
+  pivot_longer(!1:9 & !12, names_to = "time_frame", values_to = "rolling_vol") |> 
+  mutate(time_frame = gsub("vol_12w", "12-Week", time_frame),
+         time_frame = gsub("vol_52w", "52-Week", time_frame)) |> 
+ggplot() +
+  geom_line(
+    aes(x = date, y = rolling_vol),
+    na.rm = TRUE, size = 0.5
+  ) +
+
+  scale_x_date(
+    breaks = as.Date(c(
+      "1995-01-01", "2000-01-01", "2005-01-01",
+      "2010-01-01", "2015-01-01", "2020-01-01", "2025-01-01"
+    )),
+    date_labels = "%Y"
+  ) +
+  facet_grid(fuel ~ time_frame) +
+  labs(
+    title = "52 vs. 12-Week Rolling Volatility",
+    subtitle = "Indexed to inflation, all gasoline formulations",
+    x = "Date",
+    y = "Gasoline Price Volatility (Log Return SD)",
+    caption = "Data: U.S. Energy Information Administration",
+    colour = "Series"
+  ) +
+  theme_bw(base_size = 20, base_family = "Courier New") +
+  theme(
+    panel.grid = element_blank(),
+    strip.text = element_text(face = "bold", size = 14),
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "top",
+    legend.title.position = "top",
+    legend.title = element_text(hjust = 0.5),
+    legend.key.width = unit(2.5, "lines"),
+    legend.background = element_rect(fill = "#f5f5f2"),
+    plot.background = element_rect(fill = "#f5f5f2"),
+    panel.background = element_rect(fill = "#f5f5f2"),
+    panel.border = element_blank(),
+    axis.line = element_line(colour = "black")
+  )
+
+```

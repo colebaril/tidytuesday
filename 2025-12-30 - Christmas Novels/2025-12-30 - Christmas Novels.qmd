@@ -1,12 +1,23 @@
+---
+title: "2025-12-30 - Christmas Novels"
+author: "Cole Baril"
+format: html
+editor: source
+---
+
+```{r, load_packages}
 require(pacman)
 p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, wordcloud2, tm, textdata, treemapify, spellbook)
+```
 
+```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-12-30')
 christmas_novel_authors <- tuesdata$christmas_novel_authors
 christmas_novel_text <- tuesdata$christmas_novel_text
 christmas_novels <- tuesdata$christmas_novels
+```
 
-
+```{r, cleaning}
 text <- christmas_novel_text |> select(2) |> 
   unnest_tokens(word, text)
 
@@ -18,8 +29,11 @@ word_cleaned <- text |>
 
 wordcount <- word_cleaned |> 
   count(word, sort = TRUE) 
-  
+```
 
+## Word Cloud
+
+```{r, word_cloud}
 # Word Cloud
 
 christmas_cozy <- colorRampPalette(
@@ -34,8 +48,11 @@ set.seed(123)
 christmas_cozy_random <- sample(christmas_cozy, size = 100)
 
 wordcloud2(head(wordcount, 100), size = 0.8, color = christmas_cozy_random, backgroundColor = "black")
+```
 
+## Sentiment Analysis
 
+```{r, sentiment}
 # Sentiment Analysis
 
 nrc <- get_sentiments("nrc")
@@ -89,5 +106,5 @@ word_cleaned %>%
         panel.border = element_blank(),
         axis.line.y = element_line(colour = "black"))
   
-
+```
 

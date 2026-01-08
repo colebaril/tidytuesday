@@ -1,16 +1,16 @@
 ---
-title: "Cole's `TidyTuesday` Archive"
+title: "Cole's TidyTuesday Archive"
 format: html
 ---
 
-Click the links below to explore some of my weekly `TidyTuesday` posts
+Click the links below to explore some of my weekly TidyTuesday posts
 
-## 2026
+# 2026
 
 ::: {.columns}
 
 ::: {.column width="45%"}
-### [2026-01-06 - Bring Your Own Data](2026-01-06 - Bring Your Own Data/2026-01-06 - Bring Your Own Data.html)
+#### [2026-01-06 - Bring Your Own Data](2026-01-06 - Bring Your Own Data/2026-01-06 - Bring Your Own Data.html)
 
 Exploring passport power for each country.
 :::
@@ -22,34 +22,46 @@ Exploring passport power for each country.
 ::: {.columns}
 
 ::: {.column width="45%"}
-### [2025-08-12 - Extreme Weather Attribution Studies](2025-08-12 - Extreme Weather Attribution Studies/2025-08-12 - Extreme Weather Attribution Studies.html)
+#### [2025-07-01 - US Weekly Gas Prices](2025-07-01 - US Weekly Gas Prices/2025-07-01 - US Weekly Gas Prices.html)
 
 Exploring extreme weather causes. 
 :::
 
 ::: {.column width="45%"}
-### [2025-08-19 - Scottish Munros](2025-08-19 - Scottish Munros/2025-08-19 - Scottish Munros.html)
+#### [2025-08-12 - Extreme Weather Attribution Studies](2025-08-12 - Extreme Weather Attribution Studies/2025-08-12 - Extreme Weather Attribution Studies.html)
+
+Exploring extreme weather causes. 
+:::
+
+::: {.column width="45%"}
+#### [2025-08-19 - Scottish Munros](2025-08-19 - Scottish Munros/2025-08-19 - Scottish Munros.html)
 
 Exploring Scottish Munro (e.g., mountain) data.
 :::
 
 
 ::: {.column width="45%"}
-### [2025-08-26 - Billboard Hot 100 Number Ones](2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html)
+#### [2025-08-26 - Billboard Hot 100 Number Ones](2025-08-26 - Billboard Hot 100 Number Ones/2025-08-26 - Billboard Hot 100 Number Ones.html)
 
 Exploring Billboard Hot 100 Number One track data.
 :::
 
 ::: {.column width="45%"}
-### [2025-09-02 – Australian Frogs](2025-09-02_Australian Frogs/2025-09-02_Australian Frogs.html)
+#### [2025-09-02 – Australian Frogs](2025-09-02_Australian Frogs/2025-09-02_Australian Frogs.html)
 
 Exploring frog species richness across Australia.
 :::
 
 ::: {.column width="45%"}
-### [2025-09-09 – Passport Power](2025-09-09 - Passport Power/2025-09-09 - Passport Power.html)
+#### [2025-09-09 – Passport Power](2025-09-09 - Passport Power/2025-09-09 - Passport Power.html)
 
 Exploring passport power for each country.
+:::
+
+::: {.column width="45%"}
+#### [2025-12-30 - Christmas Novels](2025-12-30 - Christmas Novels/2025-12-30 - Christmas Novels.html)
+
+Text analysis from Christmas novels.
 :::
 
 :::
