@@ -1,0 +1,101 @@
+---
+title: "2025-01-21 - Himalayan Mountaineering"
+author: "Cole Baril"
+format: html
+editor: source
+---
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, spellbook)
+```
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2025-01-21')
+exped_tidy <- tuesdata$exped_tidy
+peaks_tidy <- tuesdata$peaks_tidy
+```
+
+```{r, clean_data}
+attempts <- exped_tidy |> 
+  left_join(peaks_tidy, by = "PEAKID") |> 
+  clean_names() |> 
+  mutate(across(starts_with("success"), ~as.character(.))) |> 
+  pivot_longer(cols = matches("(route|success)[1-4]"),
+               names_to = c(".value", "attempt"),
+               names_pattern = "(route|success)([1-4])") |> 
+  select(expid, pkname, year, season_factor, route, attempt, success, heightm) |> 
+  drop_na(route)
+```
+
+## Expedition Success Rates
+```{r, plot, fig.width=8}
+exp_success <- attempts |> 
+  summarise(exp_success = any(as.logical(success)),
+            .by = c("expid", "season_factor")) |> 
+  summarise(success_rate = mean(exp_success), 
+            n_expeditions = n(),
+            .by = season_factor)
+
+
+ggplot(exp_success, aes(season_factor, success_rate)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(
+    ymin = success_rate - sqrt(success_rate * (1 - success_rate) / n_expeditions),
+    ymax = success_rate + sqrt(success_rate * (1 - success_rate) / n_expeditions)
+  ), width = 0.08) +
+  geom_text(data = exp_success, 
+            mapping = aes(x = season_factor, 
+                          y = success_rate, 
+                          label = paste0("n = ", n_expeditions)),
+            nudge_x = 0.3, size = 7) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Himalayan Mountain Expedition Success Rates by Season",
+    y = "Success rate",
+    x = "Season"
+  ) +
+  theme_bw(base_size = 20) +
+  inscribe(type = "plot", include_data_source = TRUE, data_source = "The Himalayan Database")
+```
+
+## Does Size Matter?
+
+```{r, plot2, fig.width=10}
+attempts <- attempts %>%
+  mutate(height_bin = cut(
+    heightm,
+    breaks = c(0, 7000, 8000, Inf),
+    labels = c("<7000m", "7000–8000m", "8000m+")
+  ))
+
+height_success <- attempts %>%
+  summarise(exp_success = any(as.logical(success)),
+            .by = c("expid", "season_factor", "height_bin")) %>%
+  summarise(success_rate = mean(exp_success),
+            n_expeditions = n(),
+            .by = c("season_factor", "height_bin"))
+
+ggplot(height_success, aes(season_factor, success_rate, color = height_bin)) +
+  geom_point(size = 3, position = position_dodge(width = 0.4)) +
+  geom_errorbar(aes(
+    ymin = success_rate - sqrt(success_rate * (1 - success_rate) / n_expeditions),
+    ymax = success_rate + sqrt(success_rate * (1 - success_rate) / n_expeditions)
+  ), width = 0.1, position = position_dodge(width = 0.4)) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_colour_viridis_d(end = 0.9) +
+  labs(
+    title = "Himalayan Expedition Success by Season & Mountain Height",
+    y = "Success rate",
+    x = "Season",
+    color = "Height bin"
+  ) +
+  theme_bw(base_size = 25) +
+  inscribe(type = "plot", include_data_source = TRUE, data_source = "The Himalayan Database")
+
+
+
+
+
+
+```

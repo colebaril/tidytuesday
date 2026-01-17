@@ -15,6 +15,12 @@ Click the links below to explore some of my weekly TidyTuesday posts
 Exploring passport power for each country.
 :::
 
+::: {.column width="45%"}
+#### [2026-01-13 - The Languages of Africa](2026-01-13 - The Languages of Africa/2026-01-13 - The Languages of Africa.html)
+
+Natively spoken languages in Africa.
+:::
+
 :::
 
 ## 2025
@@ -22,9 +28,15 @@ Exploring passport power for each country.
 ::: {.columns}
 
 ::: {.column width="45%"}
+#### [2025-01-21 - Himalayan Mountaineering](2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html)
+
+Mountaineering success rates in the Himalayan peaks.
+:::
+
+::: {.column width="45%"}
 #### [2025-07-01 - US Weekly Gas Prices](2025-07-01 - US Weekly Gas Prices/2025-07-01 - US Weekly Gas Prices.html)
 
-Exploring extreme weather causes. 
+Exploring trends in US gasoline prices
 :::
 
 ::: {.column width="45%"}

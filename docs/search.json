@@ -39,7 +39,7 @@
     "href": "index.html#section-1",
     "title": "Cole’s TidyTuesday Archive",
     "section": "2025",
-    "text": "2025\n\n\n\n2025-07-01 - US Weekly Gas Prices\nExploring extreme weather causes.\n\n\n\n2025-08-12 - Extreme Weather Attribution Studies\nExploring extreme weather causes.\n\n\n\n2025-08-19 - Scottish Munros\nExploring Scottish Munro (e.g., mountain) data.\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country.\n\n\n\n2025-12-30 - Christmas Novels\nText analysis from Christmas novels."
+    "text": "2025\n\n\n\n2025-01-21 - Himalayan Mountaineering\nMountaineering success rates in the Himalayan peaks.\n\n\n\n2025-07-01 - US Weekly Gas Prices\nExploring trends in US gasoline prices\n\n\n\n2025-08-12 - Extreme Weather Attribution Studies\nExploring extreme weather causes.\n\n\n\n2025-08-19 - Scottish Munros\nExploring Scottish Munro (e.g., mountain) data.\n\n\n\n2025-08-26 - Billboard Hot 100 Number Ones\nExploring Billboard Hot 100 Number One track data.\n\n\n\n2025-09-02 – Australian Frogs\nExploring frog species richness across Australia.\n\n\n\n2025-09-09 – Passport Power\nExploring passport power for each country.\n\n\n\n2025-12-30 - Christmas Novels\nText analysis from Christmas novels."
   },
   {
     "objectID": "index.html#section",
@@ -166,5 +166,40 @@
     "title": "2025-07-01 - US Weekly Gas Prices",
     "section": "12-Week vs 52-Week Rolling Volatility",
     "text": "12-Week vs 52-Week Rolling Volatility\n\nvol_df |&gt; \n  pivot_longer(!1:9 & !12, names_to = \"time_frame\", values_to = \"rolling_vol\") |&gt; \n  mutate(time_frame = gsub(\"vol_12w\", \"12-Week\", time_frame),\n         time_frame = gsub(\"vol_52w\", \"52-Week\", time_frame)) |&gt; \nggplot() +\n  geom_line(\n    aes(x = date, y = rolling_vol),\n    na.rm = TRUE, size = 0.5\n  ) +\n\n  scale_x_date(\n    breaks = as.Date(c(\n      \"1995-01-01\", \"2000-01-01\", \"2005-01-01\",\n      \"2010-01-01\", \"2015-01-01\", \"2020-01-01\", \"2025-01-01\"\n    )),\n    date_labels = \"%Y\"\n  ) +\n  facet_grid(fuel ~ time_frame) +\n  labs(\n    title = \"52 vs. 12-Week Rolling Volatility\",\n    subtitle = \"Indexed to inflation, all gasoline formulations\",\n    x = \"Date\",\n    y = \"Gasoline Price Volatility (Log Return SD)\",\n    caption = \"Data: U.S. Energy Information Administration\",\n    colour = \"Series\"\n  ) +\n  theme_bw(base_size = 20, base_family = \"Courier New\") +\n  theme(\n    panel.grid = element_blank(),\n    strip.text = element_text(face = \"bold\", size = 14),\n    plot.title = element_text(face = \"bold\", hjust = 0.5),\n    plot.subtitle = element_text(hjust = 0.5),\n    legend.position = \"top\",\n    legend.title.position = \"top\",\n    legend.title = element_text(hjust = 0.5),\n    legend.key.width = unit(2.5, \"lines\"),\n    legend.background = element_rect(fill = \"#f5f5f2\"),\n    plot.background = element_rect(fill = \"#f5f5f2\"),\n    panel.background = element_rect(fill = \"#f5f5f2\"),\n    panel.border = element_blank(),\n    axis.line = element_line(colour = \"black\")\n  )"
+  },
+  {
+    "objectID": "2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html",
+    "href": "2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html",
+    "title": "2025-01-21 - Himalayan Mountaineering",
+    "section": "",
+    "text": "require(pacman)\np_load(tidytuesdayR, tidyverse, janitor, spellbook)\ntuesdata &lt;- tidytuesdayR::tt_load('2025-01-21')\nexped_tidy &lt;- tuesdata$exped_tidy\npeaks_tidy &lt;- tuesdata$peaks_tidy\nattempts &lt;- exped_tidy |&gt; \n  left_join(peaks_tidy, by = \"PEAKID\") |&gt; \n  clean_names() |&gt; \n  mutate(across(starts_with(\"success\"), ~as.character(.))) |&gt; \n  pivot_longer(cols = matches(\"(route|success)[1-4]\"),\n               names_to = c(\".value\", \"attempt\"),\n               names_pattern = \"(route|success)([1-4])\") |&gt; \n  select(expid, pkname, year, season_factor, route, attempt, success, heightm) |&gt; \n  drop_na(route)"
+  },
+  {
+    "objectID": "2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html#expedition-success-rates",
+    "href": "2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html#expedition-success-rates",
+    "title": "2025-01-21 - Himalayan Mountaineering",
+    "section": "Expedition Success Rates",
+    "text": "Expedition Success Rates\n\nexp_success &lt;- attempts |&gt; \n  summarise(exp_success = any(as.logical(success)),\n            .by = c(\"expid\", \"season_factor\")) |&gt; \n  summarise(success_rate = mean(exp_success), \n            n_expeditions = n(),\n            .by = season_factor)\n\n\nggplot(exp_success, aes(season_factor, success_rate)) +\n  geom_point(size = 3) +\n  geom_errorbar(aes(\n    ymin = success_rate - sqrt(success_rate * (1 - success_rate) / n_expeditions),\n    ymax = success_rate + sqrt(success_rate * (1 - success_rate) / n_expeditions)\n  ), width = 0.08) +\n  geom_text(data = exp_success, \n            mapping = aes(x = season_factor, \n                          y = success_rate, \n                          label = paste0(\"n = \", n_expeditions)),\n            nudge_x = 0.3, size = 7) +\n  scale_y_continuous(labels = scales::percent) +\n  labs(\n    title = \"Himalayan Mountain Expedition Success Rates by Season\",\n    y = \"Success rate\",\n    x = \"Season\"\n  ) +\n  theme_bw(base_size = 20) +\n  inscribe(type = \"plot\", include_data_source = TRUE, data_source = \"The Himalayan Database\")"
+  },
+  {
+    "objectID": "2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html#does-size-matter",
+    "href": "2025-01-21 - Himalayan Mountaineering/2025-01-21 - Himalayan Mountaineering.html#does-size-matter",
+    "title": "2025-01-21 - Himalayan Mountaineering",
+    "section": "Does Size Matter?",
+    "text": "Does Size Matter?\n\nattempts &lt;- attempts %&gt;%\n  mutate(height_bin = cut(\n    heightm,\n    breaks = c(0, 7000, 8000, Inf),\n    labels = c(\"&lt;7000m\", \"7000–8000m\", \"8000m+\")\n  ))\n\nheight_success &lt;- attempts %&gt;%\n  summarise(exp_success = any(as.logical(success)),\n            .by = c(\"expid\", \"season_factor\", \"height_bin\")) %&gt;%\n  summarise(success_rate = mean(exp_success),\n            n_expeditions = n(),\n            .by = c(\"season_factor\", \"height_bin\"))\n\nggplot(height_success, aes(season_factor, success_rate, color = height_bin)) +\n  geom_point(size = 3, position = position_dodge(width = 0.4)) +\n  geom_errorbar(aes(\n    ymin = success_rate - sqrt(success_rate * (1 - success_rate) / n_expeditions),\n    ymax = success_rate + sqrt(success_rate * (1 - success_rate) / n_expeditions)\n  ), width = 0.1, position = position_dodge(width = 0.4)) +\n  scale_y_continuous(labels = scales::percent) +\n  scale_colour_viridis_d(end = 0.9) +\n  labs(\n    title = \"Himalayan Expedition Success by Season & Mountain Height\",\n    y = \"Success rate\",\n    x = \"Season\",\n    color = \"Height bin\"\n  ) +\n  theme_bw(base_size = 25) +\n  inscribe(type = \"plot\", include_data_source = TRUE, data_source = \"The Himalayan Database\")"
+  },
+  {
+    "objectID": "2026-01-13 - The Languages of Africa/2026-01-13 - The Languages of Africa.html",
+    "href": "2026-01-13 - The Languages of Africa/2026-01-13 - The Languages of Africa.html",
+    "title": "2026-01-13 - The Languages of Africa",
+    "section": "",
+    "text": "require(pacman)\np_load(tidytuesdayR, tidyverse, janitor, here, spellbook, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)\ntuesdata &lt;- tidytuesdayR::tt_load('2026-01-13')\nafrica &lt;- tuesdata$africa"
+  },
+  {
+    "objectID": "2026-01-13 - The Languages of Africa/2026-01-13 - The Languages of Africa.html#map",
+    "href": "2026-01-13 - The Languages of Africa/2026-01-13 - The Languages of Africa.html#map",
+    "title": "2026-01-13 - The Languages of Africa",
+    "section": "Map",
+    "text": "Map\n\nn_lang &lt;- africa |&gt; \n  summarise(n = n(),\n            .by = country)\n\nafrica_map &lt;- ne_countries(continent = \"Africa\",\n                       scale = \"medium\",\n                       returnclass = \"sf\") |&gt; \n    mutate(admin = recode(admin,\n    \"United Republic of Tanzania\" = \"Tanzania\",\n    \"eSwatini\"   = \"Eswatini\"\n  )) |&gt; \n\n  left_join(n_lang, by = c(\"admin\" = \"country\"))\n\nggplot(africa_map) +\n  geom_sf(aes(fill = n), color = \"white\", linewidth = 0.2) +\n  scale_fill_viridis_c(\n    option = \"viridis\",\n    breaks = seq(0, 100, by = 20),\n    na.value = \"grey60\",\n    name = \"Number of African Languages\"\n  ) +\n  coord_sf(expand = FALSE) +\n  theme_minimal(base_size = 15) +\n  theme(\n    panel.grid = element_blank(),\n    axis.text = element_blank(),\n    axis.title = element_blank(),\n    plot.title = element_text(vjust = 0.5, hjust = 0.5, face = \"bold\"),\n    legend.position = \"inside\",\n    legend.position.inside = c(0.25, 0.35),\n    legend.title = element_text(hjust = 0.5, face = \"bold\"),\n    legend.key.width = unit(0.75, \"cm\"),\n    plot.margin = margin(5, 5, -5, 5)\n  ) +\n  labs(\n    title = \"Cameroon has the highest linguistic diversity for natively spoken languages in Africa\"\n  ) +\n  inscribe(type = \"plot\", include_data_source = TRUE,\n           data_source = \"Robert Muwanga & Wikipedia\")"
   }
 ]

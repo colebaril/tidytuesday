@@ -1,0 +1,64 @@
+---
+title: "2026-01-13 - The Languages of Africa"
+author: "Cole Baril"
+format: html
+editor: source
+---
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, here, spellbook, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)
+```
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-01-13')
+africa <- tuesdata$africa
+```
+
+
+## Map
+
+```{r, fig.width=6, fig.asp=1.2, out.width="100%"}
+n_lang <- africa |> 
+  summarise(n = n(),
+            .by = country)
+
+africa_map <- ne_countries(continent = "Africa",
+                       scale = "medium",
+                       returnclass = "sf") |> 
+    mutate(admin = recode(admin,
+    "United Republic of Tanzania" = "Tanzania",
+    "eSwatini"   = "Eswatini"
+  )) |> 
+
+  left_join(n_lang, by = c("admin" = "country"))
+
+ggplot(africa_map) +
+  geom_sf(aes(fill = n), color = "white", linewidth = 0.2) +
+  scale_fill_viridis_c(
+    option = "viridis",
+    breaks = seq(0, 100, by = 20),
+    na.value = "grey60",
+    name = "Number of African Languages"
+  ) +
+  coord_sf(expand = FALSE) +
+  theme_minimal(base_size = 15) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    plot.title = element_text(vjust = 0.5, hjust = 0.5, face = "bold"),
+    legend.position = "inside",
+    legend.position.inside = c(0.25, 0.35),
+    legend.title = element_text(hjust = 0.5, face = "bold"),
+    legend.key.width = unit(0.75, "cm"),
+    plot.margin = margin(5, 5, -5, 5)
+  ) +
+  labs(
+    title = "Cameroon has the highest linguistic diversity for natively spoken languages in Africa"
+  ) +
+  inscribe(type = "plot", include_data_source = TRUE,
+           data_source = "Robert Muwanga & Wikipedia")
+
+  
+```
