@@ -7,7 +7,7 @@ editor: source
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, here, spellbook, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)
+p_load(tidytuesdayR, tidyverse, janitor, here, spellbook, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext, ggside)
 ```
 
 ```{r, tt_data}
@@ -34,12 +34,44 @@ apod_solar <- sun_mentions |>
   summarise(
     sun_share = mean(sun_mention, na.rm = TRUE),
     .groups = "drop")
+
+apod_solar_side_x <- sun_mentions |>
+  mutate(
+    month = month(date, label = TRUE, abbr = TRUE),
+    year = year(date)) |>
+  group_by(year) |>
+  summarise(
+    sun_share = sum(sun_mention, na.rm = TRUE),
+    .groups = "drop")
+
+apod_solar_side_y <- sun_mentions |>
+  mutate(
+    month = month(date, label = TRUE, abbr = TRUE),
+    year = year(date)) |>
+  group_by(month) |>
+  summarise(
+    sun_share = sum(sun_mention, na.rm = TRUE),
+    .groups = "drop")
 ```
 ## Sun Mentions
 
 ```{r, plot, fig.width=6}
 ggplot(apod_solar, aes(year, fct_rev(month), fill = sun_share)) +
   geom_tile(color = "black", linewidth = 0.15) +
+  geom_xsideline(
+    data = apod_solar_side_x,
+    aes(y = sun_share, x = year),
+    inherit.aes = FALSE,
+    linewidth = 1,
+    colour = "#FDB813",
+    alpha = 0.9) +
+  geom_ysidecol(
+    data = apod_solar_side_y,
+    aes(x = sun_share, y = month),
+    inherit.aes = FALSE,
+    fill = "#E3A93B",
+    alpha = 0.9
+    ) +
   scale_fill_gradient(
     low = "#0B1026",   
     high = "#FDB813",  
@@ -51,6 +83,8 @@ ggplot(apod_solar, aes(year, fct_rev(month), fill = sun_share)) +
     subtitle = "Share of titles and explanations mentioning the Sun by month (2007–2025) \nEach tile = % of that month mentioning the Sun") +
   theme_minimal(base_size = 12) +
   scale_x_continuous(expand = c(0, 0)) +
+  scale_xsidey_continuous(breaks = c(100, 120, 140)) +
+  scale_ysidex_continuous(breaks = c(0, 100, 200)) +
   theme(
     panel.grid = element_blank(),
     plot.background = element_rect(fill = "#070B1A", color = NA),
