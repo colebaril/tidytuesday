@@ -11,14 +11,18 @@ Click the links below to explore some of my weekly TidyTuesday posts
 
 ::: {.column width="45%"}
 #### [2026-01-06 - Bring Your Own Data](2026-01-06 - Bring Your Own Data/2026-01-06 - Bring Your Own Data.html)
-
-Exploring passport power for each country.
 :::
 
 ::: {.column width="45%"}
 #### [2026-01-13 - The Languages of Africa](2026-01-13 - The Languages of Africa/2026-01-13 - The Languages of Africa.html)
 
 Natively spoken languages in Africa.
+:::
+
+::: {.column width="45%"}
+#### [2026-01-20 - Astronomy Picture of the Day](2026-01-20 - Astronomy Picture of the Day/2026-01-20 - Astronomy Picture of the Day.html)
+
+How often is the Sun mentioned in Astronomy Picture of the Day posts?
 :::
 
 :::

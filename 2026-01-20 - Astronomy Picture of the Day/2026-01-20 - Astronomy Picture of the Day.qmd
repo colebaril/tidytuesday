@@ -1,0 +1,69 @@
+---
+title: "2026-01-20 - Astronomy Picture of the Day"
+author: "Cole Baril"
+format: html
+editor: source
+---
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, here, spellbook, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)
+```
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-01-20')
+apod <- tuesdata$apod
+```
+
+```{r, data_cleaning}
+sun_mentions <- apod |> 
+mutate(
+  sun_mention =
+    str_detect(title, regex("(?<![A-Za-z])sun(?![A-Za-z])", ignore_case = TRUE)) |
+    str_detect(explanation, regex("(?<![A-Za-z])sun(?![A-Za-z])", ignore_case = TRUE)))
+
+sun_mentions_cleaned <- sun_mentions |> 
+  filter(sun_mention == TRUE)
+
+# Compute % of month with sun mentioned
+apod_solar <- sun_mentions |>
+  mutate(
+    month = month(date, label = TRUE, abbr = TRUE),
+    year = year(date)) |>
+  group_by(year, month) |>
+  summarise(
+    sun_share = mean(sun_mention, na.rm = TRUE),
+    .groups = "drop")
+```
+## Sun Mentions
+
+```{r, plot, fig.width=6}
+ggplot(apod_solar, aes(year, fct_rev(month), fill = sun_share)) +
+  geom_tile(color = "black", linewidth = 0.15) +
+  scale_fill_gradient(
+    low = "#0B1026",   
+    high = "#FDB813",  
+    labels = scales::percent,
+    name = "Sun Mentions") +
+  labs(
+    x = "Year", y = "Month",
+    title = "When the Sun Appears in Astronomy Picture of the Day Posts",
+    subtitle = "Share of titles and explanations mentioning the Sun by month (2007–2025) \nEach tile = % of that month mentioning the Sun") +
+  theme_minimal(base_size = 12) +
+  scale_x_continuous(expand = c(0, 0)) +
+  theme(
+    panel.grid = element_blank(),
+    plot.background = element_rect(fill = "#070B1A", color = NA),
+    panel.background = element_rect(fill = "#070B1A", color = NA),
+    text = element_text(color = "#F4E9D8"),
+    axis.text = element_text(color = "#F4E9D8"),
+    legend.key = element_rect(fill = "#070B1A"),
+    plot.title = element_text(face = "bold"),
+    axis.title = element_text(face = "bold", size = 14),
+    axis.text.x = element_text(size = 13),
+    axis.text.y = element_text(size = 13)
+    ) +
+  inscribe(type = "plot", 
+           include_data_source = TRUE, 
+           data_source = "NASA Astronomy Picture of the Day Archive")
+```

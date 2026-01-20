@@ -39,7 +39,7 @@ ggplot(africa_map) +
     option = "viridis",
     breaks = seq(0, 100, by = 20),
     na.value = "grey60",
-    name = "Number of African Languages"
+    name = "Number of \nAfrican Languages"
   ) +
   coord_sf(expand = FALSE) +
   theme_minimal(base_size = 15) +
@@ -50,12 +50,12 @@ ggplot(africa_map) +
     plot.title = element_text(vjust = 0.5, hjust = 0.5, face = "bold"),
     legend.position = "inside",
     legend.position.inside = c(0.25, 0.35),
-    legend.title = element_text(hjust = 0.5, face = "bold"),
+    legend.title = element_text(hjust = 0.5, face = "bold", size = 12),
     legend.key.width = unit(0.75, "cm"),
-    plot.margin = margin(5, 5, -5, 5)
+    plot.margin = margin(5, 5, 5, 5)
   ) +
   labs(
-    title = "Cameroon has the highest linguistic diversity for natively spoken languages in Africa"
+    title = "Cameroon has the highest linguistic diversity \nfor natively spoken languages in Africa"
   ) +
   inscribe(type = "plot", include_data_source = TRUE,
            data_source = "Robert Muwanga & Wikipedia")
