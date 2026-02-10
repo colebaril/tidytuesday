@@ -1,0 +1,146 @@
+---
+title: "2026-01-27 - Brazilian Companies"
+author: "Cole Baril"
+format: html
+editor: source
+---
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, glue, ggtext, ggside, scales, ggridges,
+       ggtext, ggview)
+```
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-01-27')
+companies <- tuesdata$companies
+legal_nature <- tuesdata$legal_nature
+qualifications <- tuesdata$qualifications
+size <- tuesdata$size
+```
+
+```{r, data_cleaning}
+lorenz_df <- companies |> 
+  filter(!is.na(capital_stock),
+         capital_stock > 0,
+         !is.na(owner_qualification)) |> 
+  group_by(owner_qualification) |> 
+  ungroup() |> 
+  
+  group_by(owner_qualification) |> 
+  arrange(capital_stock, .by_group = TRUE) |> 
+  mutate(
+    firm_rank   = row_number(),
+    firm_share  = firm_rank / n(),
+    capital_cum = cumsum(capital_stock),
+    capital_share = capital_cum / sum(capital_stock)
+  ) |> 
+  ungroup()
+
+owner_order <- lorenz_df %>%
+  group_by(owner_qualification) %>%
+  summarise(
+    capital_top_1pct = capital_share[which.min(abs(firm_share - 0.99))]
+  ) %>%
+  arrange(capital_top_1pct) %>%
+  pull(owner_qualification)
+
+lorenz_df <- lorenz_df %>%
+  mutate(
+    owner_qualification = factor(owner_qualification,
+                                 levels = owner_order)
+  )
+```
+
+## Share of Capital 
+
+### Lorenz Plot
+
+```{r, lorenz_plot, fig.width=8}
+ggplot(
+  lorenz_df,
+  aes(firm_share, capital_share, colour = owner_qualification)) +
+  geom_line(linewidth = 1.3, alpha = 0.95) +
+  geom_abline(
+    slope = 1,
+    intercept = 0,
+    linetype = "dashed",
+    colour = "grey60",
+    linewidth = 0.8) +
+  cwb::scale_cwb("discrete_21", type = "d", aesthetics = "colour", name = "Owner qualification") +
+  scale_x_continuous(
+    labels = percent_format(),
+    expand = c(0, 0)) +
+  scale_y_continuous(
+    labels = percent_format(),
+    expand = c(0, 0)) +
+  labs(
+    title = "A Small Share of Firms Controls Most Declared Capital",
+    subtitle = "Cumulative share capital by leadership role for Brazilian companies",
+    x = "Cumulative share of companies",
+    y = "Cumulative share of total declared capital") +
+  cwb::theme_cole(remove_grid = TRUE) +
+  cwb::add_caption_cwb()
+
+```
+
+### Ridgeline Plot
+
+```{r, ridge_plot, fig.height=18}
+companies_long <- companies |> 
+  select(legal_nature, owner_qualification, company_size, capital_stock) |> 
+  pivot_longer(!capital_stock, names_to = "group", values_to = "category") |> 
+  mutate(
+    group = str_replace(group, "_", " "),
+    group = str_to_sentence(group),
+    category = str_remove_all(category, "\\(.*?\\)"),
+    category = str_trim(category),
+    category = str_replace(category, "-", " "),
+    category = str_to_sentence(category),
+    category = str_replace(category, "llc", "LLC"),
+    category = str_replace(category, "brazil", "Brazil")
+  ) |> 
+  mutate(capital_stock = capital_stock / 1000000000) |> 
+  mutate(n = n(), .by = c(group, category)) |> 
+  filter(n >= 5) |> 
+  mutate(y = n_distinct(category), .by = group)
+
+summary_data <- companies_long |> 
+  summarise(med = median(capital_stock),
+            .by = c(group, category)) |> 
+  arrange(desc(med))
+
+companies_long$category <- factor(companies_long$category, levels = summary_data$category)
+
+
+ggplot() +
+  geom_density_ridges(
+    data = companies_long,
+    mapping = aes(x = capital_stock, y = category),
+    fill = "cadetblue",
+    colour = "cadetblue",
+    alpha = 0.6) +
+  facet_wrap(~group, scales = "free_y", space = "free_y") +
+  scale_x_log10(limits = c(0.00005, 1000),
+                breaks = c(0.0001, 0.001, 0.01, 0.1, 1, 10, 100, 1000),
+                labels = function(x) format(x, scientific = FALSE, drop0trailing = TRUE)) +
+      scale_y_discrete(
+        limits = rev
+      ) +
+  labs(
+    x = "Declared share capital (billions, BRL)", y = NULL,
+    title = "Publicly traded Brazilian corporations report highest share of capital") +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  theme_cole(base_size = 20, dark = FALSE, remove_grid = TRUE, show_axis_lines = "none") +
+  theme(
+    plot.margin = margin(10, 20, 10, 10),
+    axis.title.x = element_text(margin = margin(t = 5, b = 10)),
+    axis.text.y = element_text(margin = margin(r = 0)),
+    strip.text = element_text(size = 15 * 1.3)) +
+    add_caption_cwb()
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cwb::cite_packages(format = "rmd")
+```

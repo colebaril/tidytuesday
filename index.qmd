@@ -25,7 +25,23 @@ Natively spoken languages in Africa.
 How often is the Sun mentioned in Astronomy Picture of the Day posts?
 :::
 
+::: {.column width="45%"}
+#### [2026-01-27 - Brazilian Companies](2026-01-27 - Brazilian Companies/2026-01-27 - Brazilian Companies.html)
+
+How is capital distributed among Brazilian corporations?
+
 :::
+
+::: {.column width="45%"}
+#### [2026-02-03 - Edible Plants Database](2026-02-03 - Edible Plants Database/2026-02-03 - Edible Plants Database.html)
+
+Exploring the sun and water requirements of edible plants.
+
+:::
+
+:::
+
+
 
 ## 2025
 
