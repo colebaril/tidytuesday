@@ -39,7 +39,16 @@ Exploring the sun and water requirements of edible plants.
 
 :::
 
+::: {.column width="45%"}
+#### [2026-02-10 - 2026 Winter Olympics](2026-02-10 - 2026 Winter Olympics/2026-02-10 - 2026 Winter Olympics.html)
+
+Which winter Olympic sport has the most number of events and when are they distributed?
+
 :::
+
+:::
+
+
 
 
 
