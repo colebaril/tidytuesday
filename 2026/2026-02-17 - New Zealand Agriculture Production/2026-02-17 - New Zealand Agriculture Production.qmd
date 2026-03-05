@@ -93,5 +93,5 @@ knitr::include_graphics(
 
 ## References
 ```{r, ref, echo = TRUE, results = 'asis', comment = NA}
-cwb::cite_packages(format = "rmd")
+trashpanda::cite_packages(format = "rmd")
 ```

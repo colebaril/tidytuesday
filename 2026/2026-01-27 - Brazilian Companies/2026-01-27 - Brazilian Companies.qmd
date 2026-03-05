@@ -1,16 +1,18 @@
 ---
-title: "2026-01-27 - Brazilian Companies"
+title: "Brazilian Companies"
+date: 2026-01-27
 author: "Cole Baril"
-format: html
-editor: source
+description: "What types of firms control the most capital?"
+categories: [business, finance, brazil]
+image: preview.png
 ---
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, glue, ggtext, ggside, scales, ggridges,
-       ggtext, ggview)
+p_load(tidytuesdayR, magick, tidyverse, janitor, here, trashpanda, glue, ggtext, ggside, scales, ggridges, ggtext, ggview)
 ```
-
+## Load Data 
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2026-01-27')
 companies <- tuesdata$companies
@@ -18,6 +20,7 @@ legal_nature <- tuesdata$legal_nature
 qualifications <- tuesdata$qualifications
 size <- tuesdata$size
 ```
+## Data Cleaning
 
 ```{r, data_cleaning}
 lorenz_df <- companies |> 
@@ -79,14 +82,14 @@ ggplot(
     subtitle = "Cumulative share capital by leadership role for Brazilian companies",
     x = "Cumulative share of companies",
     y = "Cumulative share of total declared capital") +
-  cwb::theme_cole(remove_grid = TRUE) +
-  cwb::add_caption_cwb()
+    theme_cole(remove_grid = TRUE) +
+    add_caption_cwb()
 
 ```
 
 ### Ridgeline Plot
 
-```{r, ridge_plot, fig.height=18}
+```{r, ridge_plot, fig.align='center'}
 companies_long <- companies |> 
   select(legal_nature, owner_qualification, company_size, capital_stock) |> 
   pivot_longer(!capital_stock, names_to = "group", values_to = "category") |> 
@@ -113,7 +116,7 @@ summary_data <- companies_long |>
 companies_long$category <- factor(companies_long$category, levels = summary_data$category)
 
 
-ggplot() +
+plot2 <- ggplot() +
   geom_density_ridges(
     data = companies_long,
     mapping = aes(x = capital_stock, y = category),
@@ -129,7 +132,7 @@ ggplot() +
       ) +
   labs(
     x = "Declared share capital (billions, BRL)", y = NULL,
-    title = "Publicly traded Brazilian corporations report highest share of capital") +
+    title = "Publicly traded Brazilian corporations\nreport highest share of capitol") +
   coord_cartesian(expand = FALSE, clip = "off") +
   theme_cole(base_size = 20, dark = FALSE, remove_grid = TRUE, show_axis_lines = "none") +
   theme(
@@ -138,9 +141,40 @@ ggplot() +
     axis.text.y = element_text(margin = margin(r = 0)),
     strip.text = element_text(size = 15 * 1.3)) +
     add_caption_cwb()
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "brazil_ridgeline.png"
+
+ggsave(plot = plot2, 
+       dpi = "screen",
+       width = 16,
+       height = 18,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+img <- image_read(file.path(current_dir, plot_name))
+
+img_card <- image_scale(img, "1200x675")           
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
 ```
+
+
+
 
 ## References
 ```{r, ref, echo = TRUE, results = 'asis', comment = NA}
-cwb::cite_packages(format = "rmd")
+trashpanda::cite_packages(format = "rmd")
 ```

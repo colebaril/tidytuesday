@@ -74,7 +74,7 @@ plot <- ggplot(density, aes(x = time, y = discipline_name)) +
     fill = "cadetblue4",
     alpha = 0.9
     ) +
-  scale_size_continuous(range = c(1, 4), guide = guide_legend(nrow = 1)) +
+  scale_size_continuous(range = c(2, 5), guide = guide_legend(nrow = 1)) +
   scale_xsidey_continuous(breaks = c(2, 5, 8)) +
   scale_fill_viridis_d(option = "mako", guide = "none") +
   scale_x_datetime(

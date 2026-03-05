@@ -1,20 +1,23 @@
 ---
-title: "2026-01-20 - Astronomy Picture of the Day"
+title: "Astronomy Picture of the Day"
+date: 2026-01-20
 author: "Cole Baril"
-format: html
-editor: source
+description: "How often is the Sun mentioned in the Astronomy Picture of the Day?"
+categories: [space, text analysis, astronomy]
+image: preview.png
 ---
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, here, spellbook, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext, ggside)
+p_load(tidytuesdayR, magick, tidyverse, janitor, here, trashpanda, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext, ggside)
 ```
-
+## Load Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2026-01-20')
 apod <- tuesdata$apod
 ```
-
+## Data Cleaning
 ```{r, data_cleaning}
 sun_mentions <- apod |> 
 mutate(
@@ -53,10 +56,10 @@ apod_solar_side_y <- sun_mentions |>
     sun_share = sum(sun_mention, na.rm = TRUE),
     .groups = "drop")
 ```
-## Sun Mentions
+## Plot
 
-```{r, plot, fig.width=6}
-ggplot(apod_solar, aes(year, fct_rev(month), fill = sun_share)) +
+```{r, plot, fig.align='center'}
+plot <- ggplot(apod_solar, aes(year, fct_rev(month), fill = sun_share)) +
   geom_tile(color = "black", linewidth = 0.15) +
   geom_xsideline(
     data = apod_solar_side_x,
@@ -97,7 +100,41 @@ ggplot(apod_solar, aes(year, fct_rev(month), fill = sun_share)) +
     axis.text.x = element_text(size = 13),
     axis.text.y = element_text(size = 13)
     ) +
-  inscribe(type = "plot", 
+  add_caption_cwb(type = "plot", 
            include_data_source = TRUE, 
            data_source = "NASA Astronomy Picture of the Day Archive")
+
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "apod_sun_mentions.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 16,
+       height = 12,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+img <- image_read(file.path(current_dir, plot_name))
+
+img_card <- image_scale(img, "1200x675")           
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+trashpanda::cite_packages(format = "rmd")
 ```
