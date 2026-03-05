@@ -1,0 +1,9 @@
+---
+title: "Browse by Category"
+
+listing:
+  contents: ["2026", "2025"]   # post folders
+  type: grid
+  sort: "date desc"
+  fields: [title, description, date, image, categories]
+---

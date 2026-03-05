@@ -1,6 +1,0 @@
-/* Make listing card images fully visible with padding */
-.listing-card img {
-  object-fit: contain;   /* ensures full image fits inside card */
-  background-color: white; /* optional padding background */
-  padding: 0.5em;        /* adds spacing inside card */
-}

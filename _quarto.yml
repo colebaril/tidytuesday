@@ -16,7 +16,7 @@ website:
   navbar:
     left:
       - text: "Home"
-        file: home.qmd
+        file: index.qmd
       - text: "About"
         file: about.qmd
         
