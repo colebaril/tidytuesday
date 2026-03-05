@@ -1,6 +1,9 @@
 ---
 title: "Cole's TidyTuesday Archive"
 format: html
+website:
+  page-navigation: true
+  sidebar: false
 ---
 
 Click the links below to explore some of my weekly TidyTuesday posts

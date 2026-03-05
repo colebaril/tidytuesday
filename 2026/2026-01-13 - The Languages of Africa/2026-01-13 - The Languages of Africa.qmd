@@ -1,15 +1,18 @@
 ---
 title: "The Languages of Africa"
 date: 2026-01-13
-description: "Natively spoken languages across Africa."
-categories: [geography]
+description: "Numbers of native languages spoken in Africa"
+categories: [geography, languages, africa]
+image: preview.png
 ---
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)
+p_load(tidytuesdayR, magick, tidyverse, janitor, here, trashpanda, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)
 ```
 
+## Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2026-01-13')
 africa <- tuesdata$africa
@@ -18,7 +21,7 @@ africa <- tuesdata$africa
 
 ## Map
 
-```{r, fig.width=6, fig.asp=1.2, out.width="100%"}
+```{r, plot, fig.align='center'}
 n_lang <- africa |> 
   summarise(n = n(),
             .by = country)
@@ -33,7 +36,7 @@ africa_map <- ne_countries(continent = "Africa",
 
   left_join(n_lang, by = c("admin" = "country"))
 
-ggplot(africa_map) +
+plot <- ggplot(africa_map) +
   geom_sf(aes(fill = n), color = "white", linewidth = 0.2) +
   scale_fill_viridis_c(
     option = "viridis",
@@ -42,7 +45,7 @@ ggplot(africa_map) +
     name = "Number of \nAfrican Languages"
   ) +
   coord_sf(expand = FALSE) +
-  theme_minimal(base_size = 15) +
+  theme_minimal(base_size = 25) +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -50,8 +53,9 @@ ggplot(africa_map) +
     plot.title = element_text(vjust = 0.5, hjust = 0.5, face = "bold"),
     legend.position = "inside",
     legend.position.inside = c(0.25, 0.35),
-    legend.title = element_text(hjust = 0.5, face = "bold", size = 12),
+    legend.title = element_text(hjust = 0.5, face = "bold"),
     legend.key.width = unit(0.75, "cm"),
+    legend.key.height = unit(2, "cm"),
     plot.margin = margin(5, 5, 5, 5)
   ) +
   labs(
@@ -60,5 +64,39 @@ ggplot(africa_map) +
   add_caption_cwb(type = "plot", include_data_source = TRUE,
            data_source = "Robert Muwanga & Wikipedia")
 
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 17,
+       height = 20,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, "african_languages.png"))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, "african_languages.png"))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, "african_languages.png")
+)
   
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cwb::cite_packages(format = "rmd")
 ```

@@ -1,28 +1,30 @@
 ---
-title: "2026-02-10 - 2026 Winter Olympics"
-author: "Cole Baril"
-format: html
-editor: source
+title: "2026 Winter Olympics"
+date: 2026-02-10
+description: "2026 Winter Olympics Schedules"
+image: preview.png
+categories: [sports, olympics]
 ---
+
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, ggside)
+p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, ggside, magick)
 ```
+
+## Load Data
 
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2026-02-10')
 schedule <- tuesdata$schedule
 ```
 
+## Data Cleaning 
 ```{r, cleaning}
 schedule_intervals <- schedule |> 
   mutate(length = end_datetime_local - start_datetime_local)
 
-min(schedule_intervals$length)
-max(schedule_intervals$length)
-
-# Events range from 2 minutes to 254 minutes 
   
 events <- schedule |> 
   select(-date, -day_of_week) |> 
@@ -51,8 +53,10 @@ sidey <- events |>
   summarise(total_events = n(), .by = discipline_name)
 
 
-
-ggplot(density, aes(x = time, y = discipline_name)) +
+```
+## Plot
+```{r, plot, fig.align='center'}
+plot <- ggplot(density, aes(x = time, y = discipline_name)) +
   geom_point(aes(size = n_events, fill = discipline_name), alpha = 0.85, 
              position = position_jitter(),
              pch = 21, colour = "black") +
@@ -60,7 +64,7 @@ ggplot(density, aes(x = time, y = discipline_name)) +
     data = sidex,
     aes(y = total_events, x = time),
     inherit.aes = FALSE,
-    linewidth = 1,
+    linewidth = 0.5,
     colour = "cadetblue4",
     alpha = 0.9) +
   geom_ysidecol(
@@ -70,7 +74,7 @@ ggplot(density, aes(x = time, y = discipline_name)) +
     fill = "cadetblue4",
     alpha = 0.9
     ) +
-  scale_size_continuous(range = c(2, 5), guide = guide_legend(nrow = 1)) +
+  scale_size_continuous(range = c(1, 4), guide = guide_legend(nrow = 1)) +
   scale_xsidey_continuous(breaks = c(2, 5, 8)) +
   scale_fill_viridis_d(option = "mako", guide = "none") +
   scale_x_datetime(
@@ -87,17 +91,35 @@ ggplot(density, aes(x = time, y = discipline_name)) +
    theme(legend.position = "top") +
    add_caption_cwb(type = "plot") 
 
-ggsave(plot = last_plot(), dpi = 300, width = 10, height = 7, filename = here("concurrent_olympic_events.png"))
-   
+current_dir <- dirname(knitr::current_input())
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 18,
+       height = 13,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, "concurrent_olympic_events.png"))
 
 
+# Read the big plot
+img <- image_read(file.path(current_dir, "concurrent_olympic_events.png"))
 
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
 
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
 
+knitr::include_graphics(
+  file.path(current_dir, "concurrent_olympic_events.png")
+)
 ```
-
-
-
 
 
 ## References

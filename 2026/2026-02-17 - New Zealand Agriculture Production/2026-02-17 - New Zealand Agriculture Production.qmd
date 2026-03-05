@@ -1,0 +1,97 @@
+---
+title: "New Zealand Agriculture Production"
+date: 2026-02-17
+author: "Cole Baril"
+description: "How many sheep are there per person in New Zealand?"
+categories: [agriculture, sheep, livestock]
+image: preview.png
+---
+## Load Packages
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, magick, tidyverse, janitor, here, trashpanda, ggside)
+options(scipen = 999)
+```
+## Data
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-02-17')
+dataset <- tuesdata$dataset
+
+nz_pop <- read_csv(here("2026/2026-02-17 - New Zealand Agriculture Production/nz_pop.csv")) |> 
+  select(1:2) |> clean_names()
+```
+## Data Cleaning
+```{r, cleaning}
+animals <- dataset |> 
+  filter(measure %in% c("Total Sheep",
+                        "Total Cattle",
+                        "Number of alpacas",
+                        "Total goats",
+                        "Total Pigs",
+                        "Total Deer"
+                        )) |> 
+
+  left_join(nz_pop, by = c("year_ended_june" = "year")) |> 
+  drop_na(population) |> 
+  mutate(animal_people = value / population) |> 
+  mutate(value_label = str_remove(value_label, "Number of"),
+         value_label = str_to_title(value_label))
+```
+## Plot
+```{r, plot, fig.align='center'}
+plot <- animals |> 
+  ggplot() +
+  geom_line(aes(x = year_ended_june, y = animal_people, colour = value_label),
+            linewidth = 1.5) +
+  scale_y_continuous(labels = add_commas) +
+  labs(x = "Year", y = "Number of Livestock per Person in New Zealand",
+       title = "Fewer Sheep per Person, Still the Top Livestock") +
+  scale_colour_viridis_d("Animal", end = 0.9) +
+  theme_cole(remove_grid = TRUE) +
+  theme(legend.position = "inside",
+        legend.position.inside = c(0.75, 0.75)) +
+  add_caption_cwb()
+
+  
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "nz_livestock.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 14,
+       height = 12,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+
+```
+
+> Interestingly, despite the drastic decrease in the proportion of sheep to people, 
+> other livestock volumes have not increased.
+
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cwb::cite_packages(format = "rmd")
+```

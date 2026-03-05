@@ -1,0 +1,79 @@
+---
+title: "Edible Plants Database"
+date: 2026-02-03
+author: "Cole Baril"
+description: "Popular nutrient requirements for edible plants"
+categories: [agriculture, plants]
+image: preview.png
+---
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, magick, tidyverse, janitor, here, trashpanda)
+```
+## Load Data
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-02-03')
+edible_plants <- tuesdata$edible_plants
+```
+## Plot
+```{r, fig.align='center'}
+plot <- edible_plants |>
+  mutate(
+    water = factor(str_to_title(str_trim(water)),
+                   levels = c("Very High", "High", "Medium", "Low", "Very Low")),
+    sunlight = factor(str_to_title(str_trim(sunlight)))
+  ) |>
+  ggplot(aes(x = sunlight, y = water, colour = cultivation)) +
+  geom_jitter(alpha = 0.7, size = 3) +   
+  scale_x_discrete(labels = function(x) str_replace_all(x, "/" , "\n")) +
+
+  labs(
+    title = "Most edible plants like a lot of sun, but a moderate amount of water",
+    x = "Sunlight Requirements",
+    y = "Water Requirements") +
+  scale_cwb("Cultivation", type = "d", aesthetics = "colour", palette = "discrete_21") +
+  theme_cole(remove_grid = TRUE, base_size = 14) +
+  theme(axis.title.x = element_text(margin = margin(t = 5))) +
+  add_caption_cwb()
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "edible_plants.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 13,
+       height = 10,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+
+```
+
+
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+trashpanda::cite_packages(format = "rmd")
+```

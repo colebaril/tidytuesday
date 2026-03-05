@@ -12,13 +12,14 @@ execute:
   dpi: 300
 
 website:
-  title: "tidytuesday"
+  title: "Cole's tidytuesday Archive"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-
+      - text: "Home"
+        file: home.qmd
+      - text: "About"
+        file: about.qmd
+        
 format:
   html:
     theme: simplex
