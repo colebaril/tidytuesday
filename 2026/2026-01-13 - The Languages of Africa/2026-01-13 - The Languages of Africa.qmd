@@ -2,7 +2,7 @@
 title: "The Languages of Africa"
 date: 2026-01-13
 description: "Numbers of native languages spoken in Africa"
-categories: [geography, languages, africa]
+categories: [geography, maps, languages, africa]
 image: preview.png
 ---
 ## Load Packages

@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2026-01-13">
-<meta name="description" content="Numbers of native languages spoken in Africa">
+<meta name="dcterms.date" content="2025-09-02">
+<meta name="description" content="Frog diversity in Australia">
 
-<title>The Languages of Africa – Cole’s TidyTuesday Archive</title>
+<title>Australian Frogs – Cole’s TidyTuesday Archive</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -154,8 +154,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages">Load Packages</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#map" id="toc-map" class="nav-link" data-scroll-target="#map">Map</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data">Load Data</a></li>
+  <li><a href="#clean-data" id="toc-clean-data" class="nav-link" data-scroll-target="#clean-data">Clean Data</a></li>
+  <li><a href="#plot" id="toc-plot" class="nav-link" data-scroll-target="#plot">Plot</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -165,18 +166,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The Languages of Africa</h1>
+<h1 class="title">Australian Frogs</h1>
   <div class="quarto-categories">
     <div class="quarto-category">geography</div>
     <div class="quarto-category">maps</div>
-    <div class="quarto-category">languages</div>
-    <div class="quarto-category">africa</div>
+    <div class="quarto-category">frogs</div>
+    <div class="quarto-category">animals</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Numbers of native languages spoken in Africa
+    Frog diversity in Australia
   </div>
 </div>
 
@@ -187,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 13, 2026</p>
+      <p class="date">September 2, 2025</p>
     </div>
   </div>
   
@@ -203,94 +204,95 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="load-packages">Load Packages</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(pacman)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidytuesdayR, magick, tidyverse, janitor, here, trashpanda, rnaturalearth, rnaturalearthdata, glue, ggtext, showtext)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">p_load</span>(tidytuesdayR, trashpanda, magick, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork, hexbin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="load-data" class="level2">
+<h2 class="anchored" data-anchor-id="load-data">Load Data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2026-01-13'</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>africa <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>africa</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tuesdata <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="st">'2025-09-02'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>frogs <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>frogID_data</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>frog_names <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>frog_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="map" class="level2">
-<h2 class="anchored" data-anchor-id="map">Map</h2>
+<section id="clean-data" class="level2">
+<h2 class="anchored" data-anchor-id="clean-data">Clean Data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>frogs <span class="ot">&lt;-</span> frogs <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>frogs_unique <span class="ot">&lt;-</span> frogs <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(decimal_longitude, decimal_latitude, scientific_name)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>aus_states <span class="ot">&lt;-</span> <span class="fu">ne_states</span>(<span class="at">country =</span> <span class="st">"australia"</span>, <span class="at">returnclass =</span> <span class="st">"sf"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(name <span class="sc">!=</span> <span class="st">"Macquarie Island"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="plot" class="level2">
+<h2 class="anchored" data-anchor-id="plot">Plot</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n_lang <span class="ot">&lt;-</span> africa <span class="sc">|&gt;</span> </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">n =</span> <span class="fu">n</span>(),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> country)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>africa_map <span class="ot">&lt;-</span> <span class="fu">ne_countries</span>(<span class="at">continent =</span> <span class="st">"Africa"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">scale =</span> <span class="st">"medium"</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">returnclass =</span> <span class="st">"sf"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">admin =</span> <span class="fu">recode</span>(admin,</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"United Republic of Tanzania"</span> <span class="ot">=</span> <span class="st">"Tanzania"</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"eSwatini"</span>   <span class="ot">=</span> <span class="st">"Eswatini"</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">|&gt;</span> </span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(n_lang, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"admin"</span> <span class="ot">=</span> <span class="st">"country"</span>))</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(africa_map) <span class="sc">+</span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> n), <span class="at">color =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">option =</span> <span class="st">"viridis"</span>,</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">20</span>),</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">"grey60"</span>,</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Number of </span><span class="sc">\n</span><span class="st">African Languages"</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">25</span>) <span class="sc">+</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">vjust =</span> <span class="fl">0.5</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"inside"</span>,</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position.inside =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.35</span>),</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="fl">0.75</span>, <span class="st">"cm"</span>),</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.height =</span> <span class="fu">unit</span>(<span class="dv">2</span>, <span class="st">"cm"</span>),</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">5</span>)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Cameroon has the highest linguistic diversity </span><span class="sc">\n</span><span class="st">for natively spoken languages in Africa"</span></span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_caption_cwb</span>(<span class="at">type =</span> <span class="st">"plot"</span>, <span class="at">include_data_source =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>           <span class="at">data_source =</span> <span class="st">"Robert Muwanga &amp; Wikipedia"</span>)</span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Save and display images</span></span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>current_dir <span class="ot">&lt;-</span> <span class="fu">dirname</span>(knitr<span class="sc">::</span><span class="fu">current_input</span>())</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> plot, </span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="st">"screen"</span>,</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">17</span>,</span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">20</span>,</span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>       <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="fu">file.path</span>(current_dir, <span class="st">"african_languages.png"</span>))</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the big plot</span></span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">image_read</span>(<span class="fu">file.path</span>(current_dir, <span class="st">"african_languages.png"</span>))</span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Force 16:9 aspect ratio with minimal padding</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Target size: 1200x675 px (16:9)</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>img_card <span class="ot">&lt;-</span> <span class="fu">image_scale</span>(img, <span class="st">"1200x675"</span>)           <span class="co"># scale to fit inside 16:9</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>img_card <span class="ot">&lt;-</span> <span class="fu">image_extent</span>(</span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>  img_card,</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> <span class="st">"1200x675"</span>,</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">gravity =</span> <span class="st">"center"</span></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Save as card preview</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="fu">image_write</span>(img_card, <span class="at">path =</span> <span class="fu">file.path</span>(current_dir, <span class="st">"preview.png"</span>))</span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(current_dir, <span class="st">"african_languages.png"</span>)</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(frogs_unique, <span class="fu">aes</span>(<span class="at">x =</span> decimal_longitude, <span class="at">y =</span> decimal_latitude)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary_hex</span>(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">z =</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(scientific_name))),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bins =</span> <span class="dv">50</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> aus_states, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">colour =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">inherit.aes =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>() <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Australian Frog Species Richness"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Number of unique frog species recorded per hexagon across Australia in 2023"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Species Richness"</span>) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_caption_cwb</span>(<span class="at">type =</span> <span class="st">"plot"</span>, <span class="at">include_data_source =</span> <span class="cn">TRUE</span>, <span class="at">data_source =</span> <span class="st">"Australian Society of Herpetologists"</span>) <span class="sc">+</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"grey99"</span>, <span class="at">color =</span> <span class="cn">NA</span>),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">25</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.key.width =</span> <span class="fu">unit</span>(<span class="dv">3</span>, <span class="st">"lines"</span>),</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">15</span>, <span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Save and display images</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>current_dir <span class="ot">&lt;-</span> <span class="fu">dirname</span>(knitr<span class="sc">::</span><span class="fu">current_input</span>())</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>plot_name <span class="ot">&lt;-</span> <span class="st">"australian_frogs.png"</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="at">plot =</span> plot, </span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">dpi =</span> <span class="st">"screen"</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">width =</span> <span class="dv">18</span>,</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">height =</span> <span class="dv">18</span>,</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>       <span class="at">device =</span> ragg<span class="sc">::</span>agg_png,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>       <span class="at">filename =</span> <span class="fu">file.path</span>(current_dir, plot_name))</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the big plot</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">image_read</span>(<span class="fu">file.path</span>(current_dir, plot_name)) </span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Force 16:9 aspect ratio with minimal padding</span></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Target size: 1200x675 px (16:9)</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>img_card <span class="ot">&lt;-</span> <span class="fu">image_scale</span>(img, <span class="st">"1200x675"</span>)           <span class="co"># scale to fit inside 16:9</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>img_card <span class="ot">&lt;-</span> <span class="fu">image_extent</span>(</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  img_card,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometry =</span> <span class="st">"1200x675"</span>,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>  <span class="at">gravity =</span> <span class="st">"center"</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Save as card preview</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="fu">image_write</span>(img_card, <span class="at">path =</span> <span class="fu">file.path</span>(current_dir, <span class="st">"preview.png"</span>))</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">file.path</span>(current_dir, plot_name)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./african_languages.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="612"></p>
+<p><img src="./australian_frogs.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="648"></p>
 </figure>
 </div>
 </div>
@@ -298,17 +300,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cwb<span class="sc">::</span><span class="fu">cite_packages</span>(<span class="at">format =</span> <span class="st">"rmd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>trashpanda<span class="sc">::</span><span class="fu">cite_packages</span>(<span class="at">format =</span> <span class="st">"rmd"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ol type="1">
-<li><p>Qiu Y, details. aotisSfAf (2024). <em>showtext: Using Fonts More Easily in R Graphs</em>. doi:10.32614/CRAN.package.showtext <a href="https://doi.org/10.32614/CRAN.package.showtext" class="uri">https://doi.org/10.32614/CRAN.package.showtext</a>, R package version 0.9-7, <a href="https://CRAN.R-project.org/package=showtext" class="uri">https://CRAN.R-project.org/package=showtext</a>.</p></li>
-<li><p>Qiu Y, details. aotifSfAf (2020). <em>showtextdb: Font Files for the ‘showtext’ Package</em>. doi:10.32614/CRAN.package.showtextdb <a href="https://doi.org/10.32614/CRAN.package.showtextdb" class="uri">https://doi.org/10.32614/CRAN.package.showtextdb</a>, R package version 3.0, <a href="https://CRAN.R-project.org/package=showtextdb" class="uri">https://CRAN.R-project.org/package=showtextdb</a>.</p></li>
-<li><p>Qiu Y, details. aotifSfAf (2024). <em>sysfonts: Loading Fonts into R</em>. doi:10.32614/CRAN.package.sysfonts <a href="https://doi.org/10.32614/CRAN.package.sysfonts" class="uri">https://doi.org/10.32614/CRAN.package.sysfonts</a>, R package version 0.8.9, <a href="https://CRAN.R-project.org/package=sysfonts" class="uri">https://CRAN.R-project.org/package=sysfonts</a>.</p></li>
-<li><p>Wilke C, Wiernik B (2022). <em>ggtext: Improved Text Rendering Support for ‘ggplot2’</em>. doi:10.32614/CRAN.package.ggtext <a href="https://doi.org/10.32614/CRAN.package.ggtext" class="uri">https://doi.org/10.32614/CRAN.package.ggtext</a>, R package version 0.1.2, <a href="https://CRAN.R-project.org/package=ggtext" class="uri">https://CRAN.R-project.org/package=ggtext</a>.</p></li>
-<li><p>Hester J, Bryan J (2024). <em>glue: Interpreted String Literals</em>. doi:10.32614/CRAN.package.glue <a href="https://doi.org/10.32614/CRAN.package.glue" class="uri">https://doi.org/10.32614/CRAN.package.glue</a>, R package version 1.8.0, <a href="https://CRAN.R-project.org/package=glue" class="uri">https://CRAN.R-project.org/package=glue</a>.</p></li>
+<li><p>Carr D, Lewin-Koh N, Maechler M, Sarkar D (2024). <em>hexbin: Hexagonal Binning Routines</em>. doi:10.32614/CRAN.package.hexbin <a href="https://doi.org/10.32614/CRAN.package.hexbin" class="uri">https://doi.org/10.32614/CRAN.package.hexbin</a>, R package version 1.28.5, <a href="https://CRAN.R-project.org/package=hexbin" class="uri">https://CRAN.R-project.org/package=hexbin</a>.</p></li>
+<li><p>Pedersen T (2025). <em>patchwork: The Composer of Plots</em>. doi:10.32614/CRAN.package.patchwork <a href="https://doi.org/10.32614/CRAN.package.patchwork" class="uri">https://doi.org/10.32614/CRAN.package.patchwork</a>, R package version 1.3.2, <a href="https://CRAN.R-project.org/package=patchwork" class="uri">https://CRAN.R-project.org/package=patchwork</a>.</p></li>
 <li><p>South A, Michael S, Massicotte P (2024). <em>rnaturalearthdata: World Vector Map Data from Natural Earth Used in ‘rnaturalearth’</em>. doi:10.32614/CRAN.package.rnaturalearthdata <a href="https://doi.org/10.32614/CRAN.package.rnaturalearthdata" class="uri">https://doi.org/10.32614/CRAN.package.rnaturalearthdata</a>, R package version 1.0.0, <a href="https://CRAN.R-project.org/package=rnaturalearthdata" class="uri">https://CRAN.R-project.org/package=rnaturalearthdata</a>.</p></li>
 <li><p>Massicotte P, South A (2026). <em>rnaturalearth: World Map Data from Natural Earth</em>. doi:10.32614/CRAN.package.rnaturalearth <a href="https://doi.org/10.32614/CRAN.package.rnaturalearth" class="uri">https://doi.org/10.32614/CRAN.package.rnaturalearth</a>, R package version 1.2.0, <a href="https://CRAN.R-project.org/package=rnaturalearth" class="uri">https://CRAN.R-project.org/package=rnaturalearth</a>.</p></li>
-<li><p>Baril C (????). <em>trashpanda: Cole’s Personal Collection of R Functions, Themes, and Palettes</em>. R package version 0.0.1, <a href="https://colebaril.github.io/trashpanda/" class="uri">https://colebaril.github.io/trashpanda/</a>.</p></li>
+<li><p>Pebesma E, Bivand R (2023). <em>Spatial Data Science: With applications in R</em>. Chapman and Hall/CRC. doi:10.1201/9780429459016 <a href="https://doi.org/10.1201/9780429459016" class="uri">https://doi.org/10.1201/9780429459016</a>, <a href="https://r-spatial.org/book/" class="uri">https://r-spatial.org/book/</a>.</p></li>
+</ol>
+<p>Pebesma E (2018). “Simple Features for R: Standardized Support for Spatial Vector Data.” <em>The R Journal</em>, <em>10</em>(1), 439-446. doi:10.32614/RJ-2018-009 <a href="https://doi.org/10.32614/RJ-2018-009" class="uri">https://doi.org/10.32614/RJ-2018-009</a>, <a href="https://doi.org/10.32614/RJ-2018-009" class="uri">https://doi.org/10.32614/RJ-2018-009</a>.</p>
+<ol start="6" type="1">
+<li><p>Ulrich J (2023). <em>TTR: Technical Trading Rules</em>. doi:10.32614/CRAN.package.TTR <a href="https://doi.org/10.32614/CRAN.package.TTR" class="uri">https://doi.org/10.32614/CRAN.package.TTR</a>, R package version 0.24.4, <a href="https://CRAN.R-project.org/package=TTR" class="uri">https://CRAN.R-project.org/package=TTR</a>.</p></li>
 <li><p>Müller K (2025). <em>here: A Simpler Way to Find Your Files</em>. doi:10.32614/CRAN.package.here <a href="https://doi.org/10.32614/CRAN.package.here" class="uri">https://doi.org/10.32614/CRAN.package.here</a>, R package version 1.0.2, <a href="https://CRAN.R-project.org/package=here" class="uri">https://CRAN.R-project.org/package=here</a>.</p></li>
+<li><p>Vaughan D (2025). <em>slider: Sliding Window Functions</em>. doi:10.32614/CRAN.package.slider <a href="https://doi.org/10.32614/CRAN.package.slider" class="uri">https://doi.org/10.32614/CRAN.package.slider</a>, R package version 0.3.3, <a href="https://CRAN.R-project.org/package=slider" class="uri">https://CRAN.R-project.org/package=slider</a>.</p></li>
+<li><p>Chang W (2025). <em>extrafont: Tools for Using Fonts</em>. doi:10.32614/CRAN.package.extrafont <a href="https://doi.org/10.32614/CRAN.package.extrafont" class="uri">https://doi.org/10.32614/CRAN.package.extrafont</a>, R package version 0.20, <a href="https://CRAN.R-project.org/package=extrafont" class="uri">https://CRAN.R-project.org/package=extrafont</a>.</p></li>
+<li><p>Silge J, Robinson D (2016). “tidytext: Text Mining and Analysis Using Tidy Data Principles in R.” <em>JOSS</em>, <em>1</em>(3). doi:10.21105/joss.00037 <a href="https://doi.org/10.21105/joss.00037" class="uri">https://doi.org/10.21105/joss.00037</a>, <a href="http://dx.doi.org/10.21105/joss.00037" class="uri">http://dx.doi.org/10.21105/joss.00037</a>.</p></li>
 <li><p>Firke S (2024). <em>janitor: Simple Tools for Examining and Cleaning Dirty Data</em>. doi:10.32614/CRAN.package.janitor <a href="https://doi.org/10.32614/CRAN.package.janitor" class="uri">https://doi.org/10.32614/CRAN.package.janitor</a>, R package version 2.2.1, <a href="https://CRAN.R-project.org/package=janitor" class="uri">https://CRAN.R-project.org/package=janitor</a>.</p></li>
 <li><p>Grolemund G, Wickham H (2011). “Dates and Times Made Easy with lubridate.” <em>Journal of Statistical Software</em>, <em>40</em>(3), 1-25. <a href="https://www.jstatsoft.org/v40/i03/" class="uri">https://www.jstatsoft.org/v40/i03/</a>.</p></li>
 <li><p>Wickham H (2025). <em>forcats: Tools for Working with Categorical Variables (Factors)</em>. doi:10.32614/CRAN.package.forcats <a href="https://doi.org/10.32614/CRAN.package.forcats" class="uri">https://doi.org/10.32614/CRAN.package.forcats</a>, R package version 1.0.1, <a href="https://CRAN.R-project.org/package=forcats" class="uri">https://CRAN.R-project.org/package=forcats</a>.</p></li>
@@ -321,6 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p>Wickham H (2016). <em>ggplot2: Elegant Graphics for Data Analysis</em>. Springer-Verlag New York. ISBN 978-3-319-24277-4, <a href="https://ggplot2.tidyverse.org" class="uri">https://ggplot2.tidyverse.org</a>.</p></li>
 <li><p>Wickham H, Averick M, Bryan J, Chang W, McGowan LD, François R, Grolemund G, Hayes A, Henry L, Hester J, Kuhn M, Pedersen TL, Miller E, Bache SM, Müller K, Ooms J, Robinson D, Seidel DP, Spinu V, Takahashi K, Vaughan D, Wilke C, Woo K, Yutani H (2019). “Welcome to the tidyverse.” <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. doi:10.21105/joss.01686 <a href="https://doi.org/10.21105/joss.01686" class="uri">https://doi.org/10.21105/joss.01686</a>.</p></li>
 <li><p>Ooms J (2025). <em>magick: Advanced Graphics and Image-Processing in R</em>. doi:10.32614/CRAN.package.magick <a href="https://doi.org/10.32614/CRAN.package.magick" class="uri">https://doi.org/10.32614/CRAN.package.magick</a>, R package version 2.9.0, <a href="https://CRAN.R-project.org/package=magick" class="uri">https://CRAN.R-project.org/package=magick</a>.</p></li>
+<li><p>Baril C (????). <em>trashpanda: Cole’s Personal Collection of R Functions, Themes, and Palettes</em>. R package version 0.0.1, <a href="https://colebaril.github.io/trashpanda/" class="uri">https://colebaril.github.io/trashpanda/</a>.</p></li>
 <li><p>Harmon J, Hughes E (2025). <em>tidytuesdayR: Access the Weekly ‘TidyTuesday’ Project Dataset</em>. doi:10.32614/CRAN.package.tidytuesdayR <a href="https://doi.org/10.32614/CRAN.package.tidytuesdayR" class="uri">https://doi.org/10.32614/CRAN.package.tidytuesdayR</a>, R package version 1.2.1, <a href="https://CRAN.R-project.org/package=tidytuesdayR" class="uri">https://CRAN.R-project.org/package=tidytuesdayR</a>.</p></li>
 <li><p>Rinker TW, Kurkiewicz D (2018). <em>pacman: Package Management for R</em>. version 0.5.0, <a href="http://github.com/trinker/pacman" class="uri">http://github.com/trinker/pacman</a>.</p></li>
 </ol>

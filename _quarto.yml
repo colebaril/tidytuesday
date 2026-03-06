@@ -12,7 +12,7 @@ execute:
   dpi: 300
 
 website:
-  title: "Cole's tidytuesday Archive"
+  title: "Cole's TidyTuesday Archive"
   navbar:
     left:
       - text: "Home"

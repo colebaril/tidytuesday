@@ -1,21 +1,23 @@
 ---
-title: "2025-09-02 - Australian Frogs"
-author: "Cole Baril"
-format: html
-editor: visual
+title: "Australian Frogs"
+date: 2025-09-02
+description: "Frog diversity in Australia"
+categories: [geography, maps, frogs, animals]
+image: preview.png
 ---
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork, hexbin)
+p_load(tidytuesdayR, trashpanda, magick, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork, hexbin)
 ```
-
+## Load Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-09-02')
 frogs <- tuesdata$frogID_data
 frog_names <- tuesdata$frog_names
 ```
-
+## Clean Data
 ```{r, clean_data}
 frogs <- frogs |>
   clean_names() 
@@ -26,9 +28,9 @@ frogs_unique <- frogs %>%
 aus_states <- ne_states(country = "australia", returnclass = "sf") |> 
   filter(name != "Macquarie Island")
 ```
-
-```{r, plot}
-ggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +
+## Plot
+```{r, plot, fig.align='center'}
+plot <- ggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +
   stat_summary_hex(
     aes(z = as.numeric(factor(scientific_name))),
     fun = function(x) length(unique(x)),
@@ -39,17 +41,14 @@ ggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +
   scale_fill_viridis_c(option = "plasma") +
   labs(
     title = "Australian Frog Species Richness",
-    subtitle = "Number of unique frog species recorded per hexagon across Australia in 2023
-    ",
-    caption = "Data: Australian Society of Herpetologists",
-    fill = "Species Richness"
-  ) +
+    subtitle = "Number of unique frog species recorded per hexagon across Australia in 2023",
+    fill = "Species Richness") +
   theme_void() +
+  add_caption_cwb(type = "plot", include_data_source = TRUE, data_source = "Australian Society of Herpetologists") +
   theme(
     plot.background = element_rect(fill = "grey99", color = NA),
     plot.title = element_text(face = "bold", size = 25, hjust = 0.5),
     plot.subtitle = element_text(size = 15, hjust = 0.5),
-    plot.caption = element_text(size = 12),
     legend.position = "top",
     legend.key.width = unit(3, "lines"),
     legend.title = element_text(face = "bold", size = 15, hjust = 0.5),
@@ -57,4 +56,41 @@ ggplot(frogs_unique, aes(x = decimal_longitude, y = decimal_latitude)) +
     legend.text = element_text(size = 12),
     plot.margin = margin(10, 10, 10, 10)
   )
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "australian_frogs.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 18,
+       height = 18,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name)) 
+
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+trashpanda::cite_packages(format = "rmd")
 ```

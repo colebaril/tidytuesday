@@ -1,48 +1,95 @@
 ---
-title: "2025-09-09 - Passport Power"
+title: "Passport Power"
+date: 2025-09-09
 author: "Cole Baril"
-format: html
-editor: visual
+description: "Which country has the most powerful passport?"
+categories: [geography, maps]
+image: preview.png
 ---
+
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(spellbook, tidytuesdayR, tidyverse, janitor, tidytext, extrafont, here, 
+p_load(trashpanda, magick, tidytuesdayR, tidyverse, janitor, tidytext, extrafont, here, 
        sf, rnaturalearth, rnaturalearthdata, patchwork, ggflags, gt, gtExtras)
 ```
-
+## Load Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-09-09')
 
 country_lists <- tuesdata$country_lists
 rank_by_year <- tuesdata$rank_by_year
+
+rank_by_year <- rank_by_year |> 
+      mutate(code = case_when(country == "Namibia" ~ "NA",
+                            .default = code))
 ```
 
 ## World Map
 
-```{r, plot}
+```{r, plot, fig.align='center'}
 world <- rnaturalearth::ne_countries(scale = 50) |> 
   filter(admin != "Antarctica") |> 
   select(admin, iso_a2) |> 
   left_join(rank_by_year, by = c("iso_a2" = "code"))
 
-world |> 
+
+plot <- world |> 
   filter(year == "2025") |> 
   ggplot() +
-  geom_sf(aes(fill = visa_free_count), colour = "white", linewidth = 0.2) +
-  scale_fill_viridis_c("Visa-Free Entry Count", end = 0.9) +
-  theme_void() +
-  theme_parchment() +
+  geom_sf(aes(fill = visa_free_count), colour = "black", linewidth = 0.2) +
+  scale_fill_viridis_c("Visa-Free\nEntry Count", end = 0.9) +
+  theme_void(base_size = 15) +
   theme(panel.border = element_blank(),
         panel.grid.major = element_blank(),
         axis.text = element_blank(),
-        axis.ticks = element_blank()
+        axis.ticks = element_blank(),
+        plot.title = element_text(size = 25, face = "bold", hjust = 0.5),
+        plot.subtitle = element_text(size = 18, hjust = 0.5),
+        legend.position = "inside",
+        legend.position.inside = c(0.15, 0.50),
+        legend.key.width = unit(0.75, "cm"),
+        legend.key.height = unit(1, "cm")
         ) +
   labs(title = "2025 Passport Power",
        subtitle = "Number of countries that can be visited via its passport")
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "passport_power.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 25,
+       height = 25,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name)) |> image_trim()
+
+image_write(img, file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
 ```
 
-## Top 10 Most Powerful Passports
+## Most Powerful Passports
 
 ```{r, table_high}
 t <- world |> 
@@ -86,7 +133,7 @@ world |>
   ) |> 
   opt_table_font(font = "Courier New") |> 
     tab_options(
-    table.background.color = "cornsilk"
+    table.background.color = "white"
   )
 ```
 
@@ -134,6 +181,11 @@ world |>
   ) |> 
   opt_table_font(font = "Courier New") |> 
   tab_options(
-    table.background.color = "cornsilk"
+    table.background.color = "white"
   )
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+trashpanda::cite_packages(format = "rmd")
 ```

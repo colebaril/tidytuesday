@@ -110,7 +110,7 @@ plot <- word_cleaned %>%
 
 # Save and display images
 current_dir <- dirname(knitr::current_input())
-plot_name <- "xmax_novel_sentiments.png"
+plot_name <- "xmas_novel_sentiments.png"
 
 ggsave(plot = plot, 
        dpi = "screen",
