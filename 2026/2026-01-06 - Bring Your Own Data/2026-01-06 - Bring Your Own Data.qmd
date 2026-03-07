@@ -1,13 +1,12 @@
 ---
-title: "2026-01-06 - Bring Your Own Data"
-author: "Cole Baril"
-format: html
-editor: source
+title: "Bring Your Own Data - Job Applications Dashboard"
+date: 2026-01-06
+author: Cole Baril
+description: "Showcasing my job application dashboard"
+categories: [dashboard, shiny, jobs]
+image: preview.png
 ---
 
-```{r, load_packages}
-
-```
 
 For this week's Bring Your Own Data TidyTuesday, I wanted to share some of the data
 from my job search that I have packed into an interactive Shiny App. Click the link
@@ -16,3 +15,31 @@ below to visit the app and explore the data.
 <a href="https://colewb.shinyapps.io/Job_Applications/" target="_blank">
   <button>Open Shiny App</button>
 </a>
+
+
+```{r, fig.align='center', echo = FALSE}
+library(magick)
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "image.png"
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name)) 
+
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```

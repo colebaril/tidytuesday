@@ -1,6 +1,7 @@
 ---
 title: "Australian Frogs"
 date: 2025-09-02
+author: Cole Baril
 description: "Frog diversity in Australia"
 categories: [geography, maps, frogs, animals]
 image: preview.png

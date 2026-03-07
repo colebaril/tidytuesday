@@ -1,21 +1,25 @@
 ---
-title: "2025-01-21 - Himalayan Mountaineering"
-author: "Cole Baril"
-format: html
-editor: source
+title: "Himalayan Mountaineering"
+date: 2025-01-21
+author: Cole Baril
+description: "Himalayan mountain climbing success rates"
+categories: [mountains, Himalayas]
+image: preview.png
 ---
+
+## Load Libraries
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, trashpanda)
+p_load(tidytuesdayR, magick, tidyverse, janitor, trashpanda)
 ```
-
+## Load Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-01-21')
 exped_tidy <- tuesdata$exped_tidy
 peaks_tidy <- tuesdata$peaks_tidy
 ```
-
+## Data Cleaning
 ```{r, clean_data}
 attempts <- exped_tidy |> 
   left_join(peaks_tidy, by = "PEAKID") |> 
@@ -29,7 +33,7 @@ attempts <- exped_tidy |>
 ```
 
 ## Expedition Success Rates
-```{r, plot, fig.width=8}
+```{r, plot, dpi = 96, fig.height=10}
 exp_success <- attempts |> 
   summarise(exp_success = any(as.logical(success)),
             .by = c("expid", "season_factor")) |> 
@@ -55,13 +59,13 @@ ggplot(exp_success, aes(season_factor, success_rate)) +
     y = "Success rate",
     x = "Season"
   ) +
-  theme_bw(base_size = 20) +
+  theme_cole(remove_grid = TRUE, base_size = 25) +
   add_caption_cwb(type = "plot", include_data_source = TRUE, data_source = "The Himalayan Database")
 ```
 
 ## Does Size Matter?
 
-```{r, plot2, fig.width=10}
+```{r, plot2,  fig.align='center'}
 attempts <- attempts %>%
   mutate(height_bin = cut(
     heightm,
@@ -76,7 +80,7 @@ height_success <- attempts %>%
             n_expeditions = n(),
             .by = c("season_factor", "height_bin"))
 
-ggplot(height_success, aes(season_factor, success_rate, color = height_bin)) +
+plot <- ggplot(height_success, aes(season_factor, success_rate, color = height_bin)) +
   geom_point(size = 3, position = position_dodge(width = 0.4)) +
   geom_errorbar(aes(
     ymin = success_rate - sqrt(success_rate * (1 - success_rate) / n_expeditions),
@@ -90,12 +94,43 @@ ggplot(height_success, aes(season_factor, success_rate, color = height_bin)) +
     x = "Season",
     color = "Height bin"
   ) +
-  theme_bw(base_size = 25) +
+  theme_cole(remove_grid = TRUE, base_size = 25) +
   add_caption_cwb(type = "plot", include_data_source = TRUE, data_source = "The Himalayan Database")
 
 
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "mountaineering_success.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 22,
+       height = 15,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
 
 
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
 
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
 
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
 ```

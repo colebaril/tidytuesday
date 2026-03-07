@@ -1,15 +1,18 @@
 ---
-title: "2025-08-26 - Billboard Hot 100 Number Ones"
-author: "Cole Baril"
-format: html
-editor: visual
+title: "Billboard Hot 100 Number Ones"
+date: 2025-08-26
+author: Cole Baril
+description: "Exploring frequency of explicit billboard hot 100 hits over time"
+categories: [music]
+image: preview.png
 ---
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor)
+p_load(tidytuesdayR, magick, trashpanda, tidyverse, janitor)
 ```
-
+## Load Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-08-26')
 billboard <- tuesdata$billboard
@@ -18,18 +21,56 @@ topics <- tuesdata$topics
 
 ## Explicit Songs
 
-A fairly basic viz this week, but was curious as to whether the number of songs classified as explicit has increased, and sure enough it has. 
-```{r, plot}
-billboard |> 
+```{r, plot, fig.align='center'}
+plot <- billboard |> 
   mutate(year = year(date)) |> 
   filter(year != "2025") |> 
   reframe(prop_explicit = mean(explicit),
           .by = year) |> 
   ggplot(aes(x = year, y = prop_explicit)) +
-  geom_line() +
-  geom_point() +
+  geom_line(linewidth = 1) +
+  geom_point(size = 3) +
+  scale_y_continuous(labels = scales::label_percent()) +
   labs(y = "Proportion Explicit",
        x = "Year",
        title = "Proportion of Explicit Billboard Hot 100 Number One Songs") +
-  theme_bw(base_size = 15)
+  theme_cole(remove_grid = TRUE) +
+  add_caption_cwb()
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "explicit_billboard_songs.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 17,
+       height = 12,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name)) 
+
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+trashpanda::cite_packages(format = "rmd")
 ```

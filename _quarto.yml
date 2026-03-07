@@ -19,6 +19,16 @@ website:
         file: index.qmd
       - text: "About"
         file: about.qmd
+    right:
+      - icon: github
+        href: https://github.com/colebaril
+        aria-label: GitHub
+      - icon: bluesky
+        href: https://bsky.app/profile/colebaril.ca
+        aria-label: Bluesky
+      - icon: linkedin
+        href: https://linkedin.com/in/cole-baril/
+        aria-label: LinkedIn
         
 format:
   html:

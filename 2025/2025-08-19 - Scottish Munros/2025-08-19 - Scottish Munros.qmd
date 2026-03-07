@@ -1,22 +1,24 @@
 ---
-title: "2025-08-19 - Scottish Munros"
-author: "Cole Baril"
-format: html
-editor: visual
+title: "Scottish Munros"
+date: 2025-08-19
+author: Cole Baril
+description: "Mountains in Scotland"
+categories: [geography, maps]
+image: preview.png
 ---
+## Load Packages
 
 ```{r, load_packages}
 require(pacman)
-p_load(tidytuesdayR, tidyverse, janitor, tidytext, extrafont, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork)
+p_load(tidytuesdayR, magick, trashpanda, tidyverse, janitor, tidytext, slider, here, TTR, sf, rnaturalearth, rnaturalearthdata, patchwork)
 ```
-
+## Load Data
 ```{r, tt_data}
 tuesdata <- tidytuesdayR::tt_load('2025-08-19')
 scottish_munros <- tuesdata$scottish_munros
 ```
-
-
-```{r, plot}
+## Plot
+```{r, plot, fig.align='center'}
 # Get UK countries (scotland, england, etc.) from Natural Earth
 uk <- ne_countries(country = "United Kingdom", scale = "medium", returnclass = "sf")
 
@@ -38,16 +40,9 @@ cities_bng <- st_transform(cities, crs = 27700)
 df_sf <- st_as_sf(scottish_munros |> drop_na(xcoord, ycoord), coords = c("xcoord", "ycoord"), crs = 27700)
 
 density <- ggplot() +
-  # Lakes
   geom_sf(data = lakes_bng, fill = "lightblue", color = NA) +
-  
-  # Rivers
   geom_sf(data = rivers_bng, color = "blue", size = 0.5) +
-  
-  # Country borders
   geom_sf(data = uk_bng, fill = NA, color = "black", size = 0.7) +
-  
-  # 2D density heatmap (semi-transparent)
   stat_density_2d(
     data = df_sf,
     aes(x = st_coordinates(df_sf)[,1], y = st_coordinates(df_sf)[,2], fill = after_stat(level * 1e9)),
@@ -57,63 +52,85 @@ density <- ggplot() +
     h = c(40000, 40000)
   ) +
   scale_fill_viridis_c(option = "magma", name = "2D Kernel Density (x1e9)") +
-
-  
-  # Zoom to Scotland
   coord_sf(crs = 27700,
            xlim = c(0, 470000),
            ylim = c(530000, 1200000)) +
-  
-  # Add plot border
-  theme_void(base_family = "Courier New") +
-  theme(
-    panel.border = element_rect(color = "black", fill = NA, size = 1),
-    panel.background = element_rect(fill = "white"),
-    legend.position = "bottom"
-  ) 
-
-
-points <- ggplot() +
-  # Lakes
-  geom_sf(data = lakes_bng, fill = "lightblue", color = NA) +
-  
-  # Rivers
-  geom_sf(data = rivers_bng, color = "blue", size = 0.5) +
-  
-  # Country borders
-  geom_sf(data = uk_bng, fill = NA, color = "black", size = 0.7) +
-  
-  scale_fill_viridis_c(option = "magma", name = "Density") +
-  
-  # Points colored by height
-  geom_sf(
-    data = df_sf,
-    aes(color = Height_m, size = Height_m),
-    alpha = 0.8
-  ) +
-  scale_color_viridis_c(option = "plasma", name = "Height (m)") +
-  scale_size_continuous(range = c(1,5), guide = "none") +
-  
-  # Zoom to Scotland
-  coord_sf(crs = 27700,
-           xlim = c(0, 470000),
-           ylim = c(530000, 1200000)) +
-  
-  # Add plot border
-  theme_void(base_family = "Courier New") +
+  theme_void() +
   theme(
     panel.border = element_rect(color = "black", fill = NA, size = 1),
     panel.background = element_rect(fill = "white"),
     legend.position = "bottom",
-    legend.key.size = unit(1.5, "lines")
+    legend.title = element_text(vjust = 0.5, size = 25, margin = margin(r = 8)),
   ) 
 
-points + density +
+
+points <- ggplot() +
+  geom_sf(data = lakes_bng, fill = "lightblue", color = NA) +
+  geom_sf(data = rivers_bng, color = "blue", size = 0.5) +
+  geom_sf(data = uk_bng, fill = NA, color = "black", size = 0.7) +
+  scale_fill_viridis_c(option = "magma", name = "Density") +
+  geom_sf(
+    data = df_sf,
+    aes(color = Height_m, size = Height_m),
+    alpha = 0.8) +
+  scale_color_viridis_c(option = "plasma", name = "Height (m)", label = add_commas) +
+  scale_size_continuous(range = c(1,5), guide = "none") +
+  coord_sf(crs = 27700,
+           xlim = c(0, 470000),
+           ylim = c(530000, 1200000)) +
+  theme_void() +
+  theme(
+    panel.border = element_rect(color = "black", fill = NA, size = 1),
+    panel.background = element_rect(fill = "white"),
+    legend.position = "bottom",
+    legend.title = element_text(vjust = 0.5, size = 25, margin = margin(r = 20))) 
+
+plot <- points + density +
   plot_annotation(
     title = "Scottish Munros",
     subtitle = "Scottish Munros are largely clustered around three central points"
   ) &
-  theme(text = element_text('Courier New'),
-        plot.title = element_text(face = "bold", hjust = 0.5, size = 20),
-        plot.subtitle = element_text(hjust = 0.5, size = 14))
+  theme(legend.key.width = unit(2, "cm"),
+        legend.key.size = unit(1.5, "lines"),
+        legend.text = element_text(size = 20),
+        plot.title = element_text(face = "bold", hjust = 0.5, size = 40),
+        plot.subtitle = element_text(hjust = 0.5, size = 30))
+
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "scottish_munros.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 22,
+       height = 20,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name)) 
+
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+trashpanda::cite_packages(format = "rmd")
 ```
