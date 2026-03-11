@@ -1,0 +1,94 @@
+---
+title: "Science Foundation Ireland Grants"
+date: 2026-02-24
+author: Cole Baril
+description: "How are Science Foundation Grants distributed in Ireland?"
+categories: [science, finance]
+image: preview.png
+---
+
+## Load Libraries
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, magick, tidyverse, janitor, trashpanda, treemapify)
+```
+## Load Data
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-02-24')
+sfi_grants <- tuesdata$sfi_grants
+```
+## Tree Map
+
+```{r, tree_map, fig.align='center'}
+treemap_data <- sfi_grants |>
+  filter(!is.na(programme_name),
+         !is.na(research_body)) |>
+  group_by(programme_name, research_body) |>
+  summarise(
+    total_funding = sum(current_total_commitment, na.rm = TRUE),
+    .groups = "drop") |>
+  filter(total_funding > 0) |>
+  mutate(
+    programme_name = fct_lump(programme_name, n = 10, w = total_funding),
+    research_body  = fct_lump(research_body, n = 15, w = total_funding))
+
+plot <- ggplot(
+  treemap_data,
+  aes(
+    area = total_funding,
+    fill = programme_name,
+    subgroup = programme_name)) +
+  geom_treemap(color = "white", size = 0.3) +
+  geom_treemap_subgroup_border(
+    colour = "black",
+    size = 1.5) +
+  labs(
+    title = "Science Foundation Ireland Grant Funding",
+    subtitle = "Funding distribution by programme",
+    fill = "Programme") +
+  scale_cwb(name = "Programme", type = "d", palette = "discrete_21", aesthetics = "fill", guide = guide_legend(nrow = 3)) +
+  theme_void() +
+  theme(legend.position = "top",
+        legend.text = element_text(size = 20),
+        legend.title = element_text(size = 22),
+        legend.key.size = unit(1, "cm"),
+        plot.title = element_text(hjust = 0.5, size = 35, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 30))
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "funding_dist.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 25,
+       height = 20,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
