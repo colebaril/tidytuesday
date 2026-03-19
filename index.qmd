@@ -17,4 +17,6 @@ Each week, I explore a new dataset through data visualization, statistical analy
 
 Click on any card below to explore the full analysis and code.
 
+---
+
 # Archive

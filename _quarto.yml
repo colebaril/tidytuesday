@@ -19,6 +19,8 @@ website:
         file: index.qmd
       - text: "About"
         file: about.qmd
+      - text: "Cole's TidyTuesday Visualized"
+        file: tt_viz.qmd
     right:
       - icon: github
         href: https://github.com/colebaril

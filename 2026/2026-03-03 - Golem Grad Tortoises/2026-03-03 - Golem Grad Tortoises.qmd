@@ -1,0 +1,96 @@
+---
+title: "Golem Grad Tortoises"
+date: 2026-03-03
+description: ""
+image: preview.png
+categories: [animals]
+---
+
+Hermann's tortoise health by sex and locality.
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, ggside, magick)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-03-03')
+clutch_size_cleaned <- tuesdata$clutch_size_cleaned
+tortoise_body_condition_cleaned <- tuesdata$tortoise_body_condition_cleaned
+```
+
+## Plot
+
+```{r, plot,fig.align='center'}
+plot <- tortoise_body_condition_cleaned |> 
+  mutate(sex = case_when(sex == "f" ~ "Female",
+                         sex == "m" ~ "Male",
+                         .default = sex)) |> 
+  mutate(locality = case_when(locality == "Konjsko" ~ "Konjsko (Mainland)",
+                         .default = locality)) |> 
+  ggplot(aes(
+    x = straight_carapace_length_mm, 
+    y = body_condition_index, 
+    fill = locality)) +
+  stat_ellipse(
+    geom = "polygon", 
+    alpha = 0.3, 
+    colour = "black",
+    linewidth = 0.5) +
+  facet_wrap(~sex) +
+  scale_fill_viridis_d("Locality") +
+  labs(x = "Straight Carapace Length (mm)",
+       y = "Body Condition Index",
+       title = "Female Golem Grad tortoises are healthier on the mainland",
+       subtitle = str_wrap("In this dense island population, male Hermann’s tortoises vastly outnumber and harass females, causing injury, reduced reproduction, and lower survival, with long-term data predicting the last female will disappear by 2083. It appears this effect is greater on the Beach and Plateau compared to the mainland.")) +
+  theme_cole(remove_grid = TRUE, base_size = 15) +
+  theme(axis.line = element_line(colour = "black"),
+        strip.text = element_text(size = 20),
+        plot.title = element_text(hjust = 0),
+        plot.subtitle = element_text(hjust = 0),
+        panel.border = element_rect(colour = "black", fill = NA)) +
+  add_caption_cwb() 
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "golem_grad_tortoises.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 20,
+       height = 15,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+
+```
+
+
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
