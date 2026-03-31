@@ -1,0 +1,94 @@
+---
+title: "Likeliness"
+date: 2026-03-10
+description: ""
+image: preview.png
+categories: [stats]
+---
+
+How likely is 'likely'?
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, magick, ggridges)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-03-10')
+absolute_judgements <- tuesdata$absolute_judgements
+pairwise_comparisons <- tuesdata$pairwise_comparisons
+respondent_metadata <- tuesdata$respondent_metadata
+```
+
+## Plot
+
+```{r, plot,fig.align='center'}
+# Get list of ordered statuses (by median?)
+
+term_list <- absolute_judgements |> 
+  summarise(med_term = median(probability),
+            .by = term) |> 
+  arrange(med_term) |> 
+  pull(term)
+  
+  
+plot <- absolute_judgements |> 
+  select(term, probability) |> 
+  ggplot() +
+  geom_density_ridges(aes(x = probability, y = term), fill = "#0AC260", alpha = 0.5) +
+  scale_y_discrete(limits = term_list) +
+  coord_cartesian(expand = FALSE, clip = "off") +
+  theme_cole(remove_grid = TRUE, base_size = 17) +
+  add_caption_cwb() +
+  labs(x = "Perceived Probability", y = "Probability Term",
+       title = "How Likely is 'Likely'?",
+       subtitle = str_wrap("Based on responses from 5,000+ participants, some probability phrases show clear separation in perceived meaning while other common probability phrases show substantial overlap in perceived meaning, revealing ambiguity in how people interpret verbal likelihoods.")) +
+  theme(axis.text = element_text(face = "bold"),
+        plot.title = element_text(hjust = 0),
+        plot.subtitle = element_text(hjust = 0))
+
+
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "likeliness.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 14,
+       height = 17,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+
+```
+
+
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
