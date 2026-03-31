@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 .Rproj
+/.quarto/
+.gitignore
+
+**/*.quarto_ipynb

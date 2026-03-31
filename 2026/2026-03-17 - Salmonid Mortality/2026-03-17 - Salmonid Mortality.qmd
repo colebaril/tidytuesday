@@ -1,0 +1,98 @@
+---
+title: "Salmonid Mortality"
+date: 2026-03-17
+description: ""
+image: preview.png
+categories: [animals]
+---
+
+How likely is 'likely'?
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, janitor, here, trashpanda, magick)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-03-17')
+monthly_losses_data <- tuesdata$monthly_losses_data
+monthly_mortality_data <- tuesdata$monthly_mortality_data
+```
+
+## Plot
+
+```{r, plot,fig.align='center'}
+heatmap_data <- monthly_mortality_data |> 
+  mutate(year = year(date),
+         month = month(date, label = TRUE, abbr = TRUE)) |> 
+   mutate(mortality_anomaly = median - mean(median),
+          .by = species) |> 
+  mutate(species = case_when(species == "rainbowtrout" ~ "Rainbow Trout",
+                             species == "salmon" ~ "Salmon"))
+
+plot <- heatmap_data |> 
+  ggplot() +
+  geom_tile(aes(y = fct_rev(month), x = factor(year), fill = mortality_anomaly),
+            colour = "black", linewidth = 0.1) +
+  facet_wrap(~species) +
+  scale_fill_gradient2(
+    low = "blue",
+    mid = "white",
+    high = "red",
+    midpoint = 0,
+    name = "Deviation from\nmean (%)") +
+  labs(x = "Year", y = "Month",
+       title = "Salmon Confidential: Norwegian Salmon Mortality",
+       subtitle = str_wrap("Based on data from the Norwegian Veterinary Institute, the majority of anomolous excess death occurs from January to March for Salmon, but later in the year for Rainbow Trout with 2022 being a particularly bad year for Rainbow Trout.")) +
+  theme_cole(remove_grid = TRUE, base_size = 16) +
+  add_caption_cwb() +
+  theme(plot.title = element_text(hjust = 0, colour = "salmon"),
+        plot.subtitle = element_text(hjust = 0, colour = "salmon"),
+        legend.position = "right",
+        legend.key.height = unit(1.2, "cm"),
+        legend.key.width = unit(0.8, "cm"))
+  
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "salmon_mortality.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 16,
+       height = 14,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+
+```
+
+
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```

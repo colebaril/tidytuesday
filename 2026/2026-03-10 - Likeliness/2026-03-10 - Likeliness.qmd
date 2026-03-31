@@ -3,7 +3,7 @@ title: "Likeliness"
 date: 2026-03-10
 description: ""
 image: preview.png
-categories: [stats]
+categories: [stats, survey]
 ---
 
 How likely is 'likely'?
