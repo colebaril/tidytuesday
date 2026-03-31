@@ -6,7 +6,7 @@ image: preview.png
 categories: [animals]
 ---
 
-How likely is 'likely'?
+Salmon deaths in Norway. 
 
 ## Load Packages
 
