@@ -35,7 +35,6 @@ website:
 format:
   html:
     theme: simplex
-    css: styles.css
     toc: true
     code-overflow: wrap
 
