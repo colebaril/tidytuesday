@@ -1,0 +1,89 @@
+---
+title: "1 Million Digits of Pi"
+date: 2026-03-24
+author: Cole Baril
+description: "1 million digits of Pi, visualized"
+image: preview.png
+categories: [pi, math, numbers]
+---
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, trashpanda, magick)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-03-24')
+pi_digits <- tuesdata$pi_digits
+```
+
+## Plot
+
+```{r, plot, fig.align='center', out.width = "100%"}
+
+width <- 1000  # number of digits per row
+
+df_grid <- pi_digits %>%
+  mutate(
+    row = (digit_position - 1) %/% width,
+    col = (digit_position - 1) %% width,
+    digit = factor(digit)
+  )
+
+plot <- ggplot(df_grid, aes(x = col, y = -row, fill = digit)) +
+  geom_raster() +
+  scale_fill_viridis_d("Digit", option = "turbo") +
+  scale_x_continuous(expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_cole(remove_grid = TRUE) +
+  add_caption_cwb() +
+  theme(legend.position = "top") +
+  labs(
+  title = "1 million digits of Pi, visualized",
+  x = "Position within 1,000-digit block",
+  y = "Block index (each row = next 1,000 digits)")
+  
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "pi_digits.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 12,
+       height = 10,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+
+```
+
+
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
