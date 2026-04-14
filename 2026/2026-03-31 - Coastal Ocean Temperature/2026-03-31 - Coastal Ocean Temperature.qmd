@@ -1,0 +1,86 @@
+---
+title: "Coastal Ocean Temperatures"
+date: 2026-03-31
+author: Cole Baril
+description: "Coastal ocean temperatures from Nova Scotia."
+image: preview.png
+categories: [ocean]
+---
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, trashpanda, magick)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-03-31')
+ocean_temperature <- tuesdata$ocean_temperature
+ocean_temperature_deployments <- tuesdata$ocean_temperature_deployments
+```
+
+## Plot
+
+```{r, plot, fig.align='center', out.width="100%"}
+plot <- ocean_temperature |> 
+  ggplot() +
+  geom_point(aes(x = date, y = mean_temperature_degree_c, colour = sensor_depth_at_low_tide_m),
+             alpha = 0.7) +
+  scale_colour_viridis_c("Sensor Depth (m)") +
+  scale_x_date(date_breaks = "3 months", date_labels = "%b\n%Y",         
+               expand = c(0, 0)) +
+  scale_y_continuous(expand = c(0, 0)) +
+  theme_cole(remove_grid = TRUE, base_size = 15) +
+  theme(axis.line = element_line(),
+        axis.title.x = element_text(margin = margin(t = 10)),
+        plot.title = element_text(hjust = 0),
+        plot.subtitle = element_text(hjust = 0),
+        legend.position = "top",
+        legend.key.size = unit(1, "cm"),
+        legend.key.width = unit(2, "cm"),
+        legend.title.position = "top",
+        legend.justification = "left") +
+  add_caption_cwb() +
+  labs(x = "Date", y = "Mean Temperature (°C)",
+       title = "Coastal Ocean Temperature by Depth in Nova Scotia",
+       subtitle = str_wrap("Ocean temperature generally decreases with depth. Unsurprisingly, there is seasonality of ocean temperatures but this plot really emphasizes just how quickly and consistently the ocean temperatures rise and fall every year."))
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "ocean_temp.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 20,
+       height = 12,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
