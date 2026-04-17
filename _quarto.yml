@@ -1,6 +1,7 @@
 project:
   type: website
   output-dir: docs
+  
 
 execute:
   echo: true
@@ -13,6 +14,7 @@ execute:
 
 website:
   title: "Cole's TidyTuesday Archive"
+  favicon: images/icon.png
   navbar:
     left:
       - text: "Home"
