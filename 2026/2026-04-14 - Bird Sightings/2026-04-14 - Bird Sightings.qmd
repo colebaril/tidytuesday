@@ -1,0 +1,95 @@
+---
+title: "Bird Sightings at Sea"
+date: 2026-04-14
+author: Cole Baril
+description: "Bird sightings near New Zealand."
+image: preview.png
+categories: [animals, maps]
+---
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, trashpanda, magick, rnaturalearth, sf, hexbin)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-04-14')
+beaufort_scale <- tuesdata$beaufort_scale
+birds <- tuesdata$birds
+sea_states <- tuesdata$sea_states
+ships <- tuesdata$ships 
+```
+
+## Plot
+
+```{r, plot, fig.align='center', out.width="100%"}
+bird_df <- birds |> 
+  select(1:4, count) |> 
+  left_join(ships, by = "record_id")
+
+# Load world map
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+plot <- ggplot() +
+  geom_hex(
+    data = bird_df,
+    aes(x = longitude, y = latitude),
+    bins = 50,
+    alpha = 1) +
+  geom_sf(data = world, fill = "grey50", color = "grey30", linewidth = 0.2, alpha = 0.5) +
+  coord_sf(
+    xlim = c(55, 180),
+    ylim = c(-75, -15)) +
+  scale_fill_viridis_c("Number of Birds Sighted", trans = "log10", labels = add_commas) +
+  theme_void(base_size = 15) +
+  add_caption_cwb() +
+  labs(title = "Bird Sightings at Sea, 1969 - 1990") +
+  theme(legend.position = "top",
+        legend.justification = "left",
+        legend.title.position = "top",
+        legend.key.width = unit(2, "cm"),
+        legend.box.margin = margin(l = 10),
+        plot.margin = margin(b = 10),
+        plot.title = element_text(face = "bold", size = 25))
+
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "bird_sightings.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 12,
+       height = 10,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
