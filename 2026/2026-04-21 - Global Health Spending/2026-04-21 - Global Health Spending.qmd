@@ -1,0 +1,89 @@
+---
+title: "Global Health Spending"
+date: 2026-04-21
+author: Cole Baril
+description: "How much does Canada spend on health?"
+image: preview.png
+categories: [health]
+---
+
+## Load Packages
+
+```{r, load_packages}
+require(pacman)
+p_load(tidytuesdayR, tidyverse, trashpanda, magick, rnaturalearth, sf, hexbin)
+
+options(scipen = 999)
+```
+
+## Load Data
+
+```{r, tt_data}
+tuesdata <- tidytuesdayR::tt_load('2026-04-21')
+financing_schemes <- tuesdata$financing_schemes
+health_spending <- tuesdata$health_spending
+spending_purpose <- tuesdata$spending_purpose
+```
+
+## Plot
+
+```{r, plot, fig.align='center', out.width="100%"}
+df <- spending_purpose |> 
+  filter(country_name == "Canada",
+         unit == "constant 2023 US$")
+
+
+plot <- df |> 
+  ggplot() +
+  geom_col(aes(x = year, y = value, group = spending_purpose, fill = spending_purpose), position = position_stack()) +
+  scale_y_continuous(labels = scales::unit_format(unit = "B", scale = 1e-9), 
+                     breaks = c(0, 
+                                50000000000, 
+                                100000000000, 
+                                150000000000, 
+                                200000000000)) +
+  scale_fill_viridis_d("Spending Purpose") +
+  theme_cole(remove_grid = TRUE, base_size = 20) +
+  labs(x = "Year", y = "Amount Spent (USD)",
+       title = "Annual Health Spending in Canada, WHO Global Health Expenditure Database") +
+  theme(plot.title = element_text(hjust = 0))
+
+
+
+
+# Save and display images
+current_dir <- dirname(knitr::current_input())
+plot_name <- "canada_health_spending.png"
+
+ggsave(plot = plot, 
+       dpi = "screen",
+       width = 16,
+       height = 10,
+       device = ragg::agg_png,
+       filename = file.path(current_dir, plot_name))
+
+
+# Read the big plot
+img <- image_read(file.path(current_dir, plot_name))
+
+# Force 16:9 aspect ratio with minimal padding
+# Target size: 1200x675 px (16:9)
+img_card <- image_scale(img, "1200x675")           # scale to fit inside 16:9
+img_card <- image_extent(
+  img_card,
+  geometry = "1200x675",
+  gravity = "center"
+)
+
+# Save as card preview
+image_write(img_card, path = file.path(current_dir, "preview.png"))
+
+knitr::include_graphics(
+  file.path(current_dir, plot_name)
+)
+```
+
+## References
+```{r, ref, echo = TRUE, results = 'asis', comment = NA}
+cite_packages(format = "rmd")
+```
